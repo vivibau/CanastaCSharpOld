@@ -1,0 +1,197 @@
+# depslib dependency file v1.0
+1425077769 source:/home/bau/code/Canasta/src/TCPAcceptor.cpp
+	<stdio.h>
+	<string.h>
+	<arpa/inet.h>
+	"TCPAcceptor.h"
+
+1425077769 or.h"
+
+1425077091 /home/bau/code/Canasta/include/TCPAcceptor.h
+	<string>
+	<netinet/in.h>
+	"TCPStream.h"
+
+1425077091 .h"
+
+1425077894 /home/bau/code/Canasta/include/TCPStream.h
+	<sys/types.h>
+	<sys/socket.h>
+	<unistd.h>
+	<string>
+
+1425077894 
+
+1425078066 source:/home/bau/code/Canasta/src/TCPStream.cpp
+	<arpa/inet.h>
+	"TCPStream.h"
+
+1425078593 source:/home/bau/code/Canasta/src/TCPConnector.cpp
+	<stdio.h>
+	<string.h>
+	<netdb.h>
+	<arpa/inet.h>
+	<fcntl.h>
+	<errno.h>
+	"TCPConnector.h"
+
+1425078593 tor.h"
+
+1425078307 /home/bau/code/Canasta/include/TCPConnector.h
+	<netinet/in.h>
+	"TCPStream.h"
+
+1425079739 source:/home/bau/code/Canasta/server.cpp
+	<stdio.h>
+	<stdlib.h>
+	"TCPAcceptor.h"
+
+1425080932 source:/home/bau/code/Canasta/src/Bau.cpp
+	"Bau.h"
+
+1425080932 /home/bau/code/Canasta/include/Bau.h
+
+1425080171 source:d:\vivi\code\personal\canasta\client.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string>
+	"TCPConnector.h"
+
+1425077769 source:d:\vivi\code\personal\canasta\src\tcpacceptor.cpp
+	<stdio.h>
+	<string.h>
+	<arpa/inet.h>
+	"TCPAcceptor.h"
+
+1425078593 source:d:\vivi\code\personal\canasta\src\tcpconnector.cpp
+	<stdio.h>
+	<string.h>
+	<netdb.h>
+	<arpa/inet.h>
+	<fcntl.h>
+	<errno.h>
+	"TCPConnector.h"
+
+1425078066 source:d:\vivi\code\personal\canasta\src\tcpstream.cpp
+	<arpa/inet.h>
+	"TCPStream.h"
+
+1425078307 d:\vivi\code\personal\canasta\include\tcpconnector.h
+	<netinet/in.h>
+	"TCPStream.h"
+
+1425077894 d:\vivi\code\personal\canasta\include\tcpstream.h
+	<sys/types.h>
+	<sys/socket.h>
+	<unistd.h>
+	<string>
+
+1425077091 d:\vivi\code\personal\canasta\include\tcpacceptor.h
+	<string>
+	<netinet/in.h>
+	"TCPStream.h"
+
+1425080171 source:/home/bau/code/Canasta/client.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string>
+	"TCPConnector.h"
+
+1425078307 /home/bau/code/Canasta/include/TCPConnector.h
+	<netinet/in.h>
+	"TCPStream.h"
+
+1425077894 /home/bau/code/Canasta/include/TCPStream.h
+	<sys/types.h>
+	<sys/socket.h>
+	<unistd.h>
+	<string>
+
+1426170361 source:/home/bau/code/Canasta/src/TCPAcceptor.cpp
+	<stdio.h>
+	<string.h>
+	<arpa/inet.h>
+	"TCPAcceptor.h"
+
+1425077091 /home/bau/code/Canasta/include/TCPAcceptor.h
+	<string>
+	<netinet/in.h>
+	"TCPStream.h"
+
+1425078593 source:/home/bau/code/Canasta/src/TCPConnector.cpp
+	<stdio.h>
+	<string.h>
+	<netdb.h>
+	<arpa/inet.h>
+	<fcntl.h>
+	<errno.h>
+	"TCPConnector.h"
+
+1425078066 source:/home/bau/code/Canasta/src/TCPStream.cpp
+	<arpa/inet.h>
+	"TCPStream.h"
+
+1426171312 source:/home/bau/code/Canasta/server.cpp
+	<stdio.h>
+	<stdlib.h>
+	<vector>
+	<iostream>
+	"TCPAcceptor.h"
+	"Game.h"
+	"ParserFactory.h"
+	"Parser.h"
+	"Includes.h"
+
+1426253800 /home/bau/code/Canasta/include/Game.h
+	"Player.h"
+	<vector>
+	<iostream>
+	"Includes.h"
+
+1426161662 /home/bau/code/Canasta/include/Player.h
+	<iostream>
+
+1425378543 /home/bau/code/Canasta/include/ParserFactory.h
+	"Parser.h"
+
+1426253598 /home/bau/code/Canasta/include/Parser.h
+	<stdio.h>
+	<iostream>
+	"Includes.h"
+	<vector>
+	"Game.h"
+
+1426256663 source:/home/bau/code/Canasta/src/Game.cpp
+	"Game.h"
+
+1426256041 source:/home/bau/code/Canasta/src/Parser.cpp
+	"Parser.h"
+	"Data.h"
+	"Player.h"
+
+1426002334 source:/home/bau/code/Canasta/src/ParserCanasta.cpp
+	"ParserCanasta.h"
+	<vector>
+	<iostream>
+	"Game.h"
+	"Includes.h"
+
+1426000176 /home/bau/code/Canasta/include/ParserCanasta.h
+	<Parser.h>
+	"Game.h"
+	<vector>
+	<iostream>
+	"Includes.h"
+
+1425916345 source:/home/bau/code/Canasta/src/ParserFactory.cpp
+	"ParserFactory.h"
+	"ParserCanasta.h"
+	"Includes.h"
+
+1426163848 source:/home/bau/code/Canasta/src/Player.cpp
+	"Player.h"
+
+1426253111 /home/bau/code/Canasta/include/Includes.h
+
+1426159635 /home/bau/code/Canasta/include/Data.h
+
