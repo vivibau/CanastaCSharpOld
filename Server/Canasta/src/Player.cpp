@@ -24,3 +24,13 @@ void Player::setIndexHistory(int index)
 {
     m_indexHistory = index;
 }
+
+int Player::getTeam()
+{
+    return m_teamId;
+}
+
+void Player::setTeam(int team)
+{
+    m_teamId = team;
+}
