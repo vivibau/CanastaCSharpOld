@@ -237,3 +237,83 @@
 1426289002 source:/home/bau/code/Server/Canasta/src/Game.cpp
 	"Game.h"
 
+1426506229 source:/home/bau/code/Canasta/Server/Canasta/server.cpp
+	<stdio.h>
+	<stdlib.h>
+	<vector>
+	<iostream>
+	"TCPAcceptor.h"
+	"Game.h"
+	"Parser.h"
+	"Includes.h"
+
+1426506229 /home/bau/code/Canasta/Server/Canasta/include/TCPAcceptor.h
+	<string>
+	<netinet/in.h>
+	"TCPStream.h"
+
+1426506229 /home/bau/code/Canasta/Server/Canasta/include/TCPStream.h
+	<sys/types.h>
+	<sys/socket.h>
+	<unistd.h>
+	<string>
+
+1426513617 /home/bau/code/Canasta/Server/Canasta/include/Game.h
+	"Player.h"
+	<vector>
+	<iostream>
+	"Includes.h"
+	"Update.h"
+
+1426507283 /home/bau/code/Canasta/Server/Canasta/include/Player.h
+	<iostream>
+
+1426506663 /home/bau/code/Canasta/Server/Canasta/include/Includes.h
+
+1426506229 /home/bau/code/Canasta/Server/Canasta/include/Update.h
+	<iostream>
+	"Includes.h"
+
+1426510244 /home/bau/code/Canasta/Server/Canasta/include/Parser.h
+	<stdio.h>
+	<iostream>
+	"Includes.h"
+	<vector>
+	"Game.h"
+
+1426516327 source:/home/bau/code/Canasta/Server/Canasta/src/Game.cpp
+	"Game.h"
+
+1426507349 source:/home/bau/code/Canasta/Server/Canasta/src/Player.cpp
+	"Player.h"
+
+1426506229 source:/home/bau/code/Canasta/Server/Canasta/src/TCPAcceptor.cpp
+	<stdio.h>
+	<string.h>
+	<arpa/inet.h>
+	"TCPAcceptor.h"
+
+1426506229 source:/home/bau/code/Canasta/Server/Canasta/src/TCPConnector.cpp
+	<stdio.h>
+	<string.h>
+	<netdb.h>
+	<arpa/inet.h>
+	<fcntl.h>
+	<errno.h>
+	"TCPConnector.h"
+
+1426506229 /home/bau/code/Canasta/Server/Canasta/include/TCPConnector.h
+	<netinet/in.h>
+	"TCPStream.h"
+
+1426506229 source:/home/bau/code/Canasta/Server/Canasta/src/TCPStream.cpp
+	<arpa/inet.h>
+	"TCPStream.h"
+
+1426506229 source:/home/bau/code/Canasta/Server/Canasta/src/Update.cpp
+	"Update.h"
+
+1426515877 source:/home/bau/code/Canasta/Server/Canasta/src/Parser.cpp
+	"Parser.h"
+	"Player.h"
+

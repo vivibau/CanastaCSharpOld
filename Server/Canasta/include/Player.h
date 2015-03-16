@@ -11,6 +11,8 @@ class Player
         std::string             getName();
         int                     getIndexHistory();
         void                    setIndexHistory(int index);
+        int                     getTeam();
+        void                    setTeam(int team);
     protected:
         std::string             m_name;
 //        std::string m_gameId;

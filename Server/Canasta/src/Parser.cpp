@@ -57,6 +57,8 @@ void Parser::parseData()
 {
     switch (m_operation)
     {
+        case AskStatus_e:   //nothing to parse
+            break;
         case CreateGame_e:  parseCreateGame();
             std::cout << "create game" << std::endl;
             break;
@@ -72,6 +74,9 @@ void Parser::parseData()
             std::cout << "add player" << std::endl;
             break;
         case Broadcast_e: parseBroadcast();
+            break;
+        case AssignPlayer_e: parseAssignPlayer();
+            break;
         default:
             break;
     }
@@ -86,8 +91,17 @@ void Parser::parseCreateGame()
 void Parser::parseBroadcast()
 {
     m_message = "[" + m_playerName + "]: ";
-    for (int i = 0 i < (int)m_data[0]; i++)
+    for (int i = 0; i < (int)m_data[0]; i++)
         m_message += (char)m_data[i + 1];
+}
+
+void Parser::parseAssignPlayer()
+{
+    m_selectedPlayer = "";
+    for (int i = 0; i < m_data[0]; i++)
+        m_selectedPlayer += m_data[i + 1];
+
+    m_selectedTeam = m_data[m_data[0] + 2];
 }
 
 Game* Parser::getSelectedGame(std::vector<Game*>& games)
@@ -102,18 +116,59 @@ void Parser::updateGame(std::vector<Game*>& games)
 {
     switch (m_operation)
     {
-        case CreateGame_e:  updateGameCreateGame(games);
+        case AskStatus_e:       updateGameAskStatus(games);
             break;
-        case JoinGame_e:    updateGameJoinGame(games);
+        case CreateGame_e:      updateGameCreateGame(games);
             break;
-        case AskGameList_e: updateGameAskGameList(games);
+        case JoinGame_e:        updateGameJoinGame(games);
             break;
-        case AskPlayers_e:  updateGameAskPlayers(games);
+        case AskGameList_e:     updateGameAskGameList(games);
             break;
-        case AddPlayer_e:   updateGameAddPlayer(games);
+        case AskPlayers_e:      updateGameAskPlayers(games);
+            break;
+        case AddPlayer_e:       updateGameAddPlayer(games);
+            break;
+        case Broadcast_e:       updateGameBroadcast(games);
+            break;
+        case AssignPlayer_e:    updateGameAssignPlayer(games);
             break;
         default:
             break;
+    }
+}
+
+void Parser::updateGameAskStatus(std::vector<Game*>& games)
+{
+    Game* selectedGame = getSelectedGame(games);
+    if (selectedGame == NULL)
+    {
+        // return list of games
+        int numberOfGames = games.size();
+        m_response += (char)numberOfGames;
+        for (int i = 0; i < numberOfGames; i++)
+        {
+            std::string gameName = games[i]->getGameName();
+            m_response += (char)gameName.length();
+            m_response += gameName;
+        }
+        return;
+    }
+
+    if (selectedGame->getGameState() == WaitingForPlayers_e)
+    {
+        // return list of players
+        std::vector<Player*>& players = selectedGame->getPlayers();
+        int numberOfPlayers = players.size();
+        m_response += (char)numberOfPlayers;
+
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            std::string playerName = players[i]->getName();
+            m_response += (char)playerName.length();
+            m_response += playerName;
+            m_response += (char)players[i]->getTeam();
+        }
+        return;
     }
 }
 
@@ -199,6 +254,18 @@ void Parser::updateGameBroadcast(std::vector<Game*>& games)
 
     m_response += (char)OK_e;
     selectedGame->update(m_playerName, m_operation, m_data);
+}
+
+void Parser::updateGameAssignPlayer(std::vector<Game*>& games)
+{
+    Game* selectedGame = getSelectedGame(games);
+    std::vector<Player*>& players = selectedGame->getPlayers();
+    for (unsigned int i = 0; i < players.size(); i++)
+        if (players[i]->getName() == m_selectedPlayer)
+        {
+            players[i]->setTeam(m_selectedTeam);
+            break;
+        }
 }
 
 std::string Parser::getResponse()

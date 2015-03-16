@@ -40,7 +40,7 @@ std::vector<Player*>& Game::getPlayers()
 void Game::update(std::string playerName, Operation_e operation, std::string data)
 {
     m_history.push_back(new Update(playerName, operation, data));
-    for (int i = 0; i < m_players.size(); i++)
+    for (unsigned int i = 0; i < m_players.size(); i++)
         if (m_players[i]->getIndexHistory() == -1)
             m_players[i]->setIndexHistory(m_history.size());
 }
@@ -48,4 +48,14 @@ void Game::update(std::string playerName, Operation_e operation, std::string dat
 int Game::getIndexHistory()
 {
     return m_history.size();
+}
+
+GameState_e Game::getGameState()
+{
+    return m_gameState;
+}
+
+void Game::setGameState(GameState_e state)
+{
+    m_gameState = state;
 }

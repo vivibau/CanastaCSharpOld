@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "Includes.h"
+#include "Update.h"
 
 class Game
 {
@@ -16,6 +17,8 @@ class Game
         std::vector<Player*>&   getPlayers();
         void                    update(std::string playerName, Operation_e operation, std::string data);
         int                     getIndexHistory();
+        GameState_e             getGameState();
+        void                    setGameState(GameState_e state);
     protected:
         GameType_e              m_gameType;
         std::string             m_gameName;
