@@ -1,5 +1,4 @@
 #include "Parser.h"
-#include "Data.h"
 #include "Player.h"
 
 Parser::Parser(const char* input, ssize_t length)
@@ -72,6 +71,7 @@ void Parser::parseData()
         case AddPlayer_e:   //nothing to parse
             std::cout << "add player" << std::endl;
             break;
+        case Broadcast_e: parseBroadcast();
         default:
             break;
     }
@@ -81,6 +81,13 @@ void Parser::parseCreateGame()
 {
     m_numberOfPlayers = (int)m_data[0];
     m_numberOfTeams = (int)m_data[1];
+}
+
+void Parser::parseBroadcast()
+{
+    m_message = "[" + m_playerName + "]: ";
+    for (int i = 0 i < (int)m_data[0]; i++)
+        m_message += (char)m_data[i + 1];
 }
 
 Game* Parser::getSelectedGame(std::vector<Game*>& games)
@@ -118,6 +125,7 @@ void Parser::updateGameCreateGame(std::vector<Game*>& games)
         newGame->addPlayer(m_playerName);
         games.push_back(newGame);
         m_response += (char)OK_e;
+        newGame->update(m_playerName, m_operation, "");
         return;
     }
 
@@ -134,6 +142,7 @@ void Parser::updateGameJoinGame(std::vector<Game*>& games)
     }
 
     m_response += (char)selectedGame->addPlayer(m_playerName);
+    selectedGame->update(m_playerName, m_operation, "");
 }
 
 void Parser::updateGameAskGameList(std::vector<Game*>& games)
@@ -176,6 +185,20 @@ void Parser::updateGameAddPlayer(std::vector<Game*>& games)
     }
 
     m_response += (char)selectedGame->addPlayer(m_playerName);
+    selectedGame->update(m_playerName, m_operation, "");
+}
+
+void Parser::updateGameBroadcast(std::vector<Game*>& games)
+{
+    Game* selectedGame = getSelectedGame(games);
+    if (selectedGame == NULL)
+    {
+        m_response += (char)GameInexistent_e;
+        return;
+    }
+
+    m_response += (char)OK_e;
+    selectedGame->update(m_playerName, m_operation, m_data);
 }
 
 std::string Parser::getResponse()

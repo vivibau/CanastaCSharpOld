@@ -195,3 +195,45 @@
 
 1426159635 /home/bau/code/Canasta/include/Data.h
 
+1426289483 source:/home/bau/code/Server/Canasta/server.cpp
+	<stdio.h>
+	<stdlib.h>
+	<vector>
+	<iostream>
+	"TCPAcceptor.h"
+	"Game.h"
+	"Parser.h"
+	"Includes.h"
+
+1426289002 /home/bau/code/Server/Canasta/include/TCPAcceptor.h
+	<string>
+	<netinet/in.h>
+	"TCPStream.h"
+
+1426289002 /home/bau/code/Server/Canasta/include/TCPStream.h
+	<sys/types.h>
+	<sys/socket.h>
+	<unistd.h>
+	<string>
+
+1426289002 /home/bau/code/Server/Canasta/include/Game.h
+	"Player.h"
+	<vector>
+	<iostream>
+	"Includes.h"
+
+1426289002 /home/bau/code/Server/Canasta/include/Player.h
+	<iostream>
+
+1426289002 /home/bau/code/Server/Canasta/include/Includes.h
+
+1426289002 /home/bau/code/Server/Canasta/include/Parser.h
+	<stdio.h>
+	<iostream>
+	"Includes.h"
+	<vector>
+	"Game.h"
+
+1426289002 source:/home/bau/code/Server/Canasta/src/Game.cpp
+	"Game.h"
+

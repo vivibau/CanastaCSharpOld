@@ -13,3 +13,14 @@ std::string Player::getName()
 {
     return m_name;
 }
+
+
+int Player::getIndexHistory()
+{
+    return m_indexHistory;
+}
+
+void Player::setIndexHistory(int index)
+{
+    m_indexHistory = index;
+}

@@ -27,15 +27,18 @@ class Parser
         int             m_numberOfPlayers;
         int             m_numberOfTeams;
 
+        std::string     m_message;
         std::string     m_response;
 
 
         void            parseCreateGame();
+        void            parseBroadcast();
         void            updateGameCreateGame(std::vector<Game*>& games);
         void            updateGameJoinGame(std::vector<Game*>& games);
         void            updateGameAskGameList(std::vector<Game*>& games);
         void            updateGameAskPlayers(std::vector<Game*>& games);
         void            updateGameAddPlayer(std::vector<Game*>& games);
+        void            updateBroadcast(std::vector<Game*>& games);
 
         Game*           getSelectedGame(std::vector<Game*>& games);
 };

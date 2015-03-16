@@ -17,7 +17,8 @@ enum Operation_e
     AskGameList_e   = 5,
     AskPlayers_e    = 6,
     ModifyGame_e    = 7,
-    AddPlayer_e     = 8
+    AddPlayer_e     = 8,
+    Broadcast_e     = 9
 };
 
 enum ResponseCode_e

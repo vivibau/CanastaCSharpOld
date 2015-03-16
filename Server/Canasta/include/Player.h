@@ -9,11 +9,14 @@ class Player
                                 Player() {};
                                 Player(const std::string playerName);
         std::string             getName();
+        int                     getIndexHistory();
+        void                    setIndexHistory(int index);
     protected:
         std::string             m_name;
 //        std::string m_gameId;
         int                     m_teamId;
         int                     m_order;
+        int                     m_indexHistory;
 //        bool m_dirty;
     private:
 };

@@ -14,6 +14,8 @@ class Game
         ResponseCode_e          addPlayer(std::string playerName);
         std::string             getGameName();
         std::vector<Player*>&   getPlayers();
+        void                    update(std::string playerName, Operation_e operation, std::string data);
+        int                     getIndexHistory();
     protected:
         GameType_e              m_gameType;
         std::string             m_gameName;
@@ -22,6 +24,7 @@ class Game
         int                     m_numberOfTeams;
         int                     m_currentPlayer;
         GameState_e             m_gameState;
+        std::vector<Update*>    m_history;
     private:
 };
 

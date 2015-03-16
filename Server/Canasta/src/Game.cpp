@@ -36,3 +36,16 @@ std::vector<Player*>& Game::getPlayers()
 {
     return m_players;
 }
+
+void Game::update(std::string playerName, Operation_e operation, std::string data)
+{
+    m_history.push_back(new Update(playerName, operation, data));
+    for (int i = 0; i < m_players.size(); i++)
+        if (m_players[i]->getIndexHistory() == -1)
+            m_players[i]->setIndexHistory(m_history.size());
+}
+
+int Game::getIndexHistory()
+{
+    return m_history.size();
+}

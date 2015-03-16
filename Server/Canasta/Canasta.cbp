@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -40,6 +42,7 @@
 		<Unit filename="include/TCPAcceptor.h" />
 		<Unit filename="include/TCPConnector.h" />
 		<Unit filename="include/TCPStream.h" />
+		<Unit filename="include/Update.h" />
 		<Unit filename="server.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/Parser.cpp" />
@@ -47,6 +50,7 @@
 		<Unit filename="src/TCPAcceptor.cpp" />
 		<Unit filename="src/TCPConnector.cpp" />
 		<Unit filename="src/TCPStream.cpp" />
+		<Unit filename="src/Update.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
