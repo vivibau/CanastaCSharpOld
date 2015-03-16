@@ -16,12 +16,17 @@ namespace Canasta
     {
         string m_currentGame;
         bool m_creareJoc;
+        string m_server;
+        int m_interval;
 
-        public NewGame()
+        public NewGame(string server, int interval)
         {
             InitializeComponent();
             m_creareJoc = true;
             m_currentGame = "";
+            m_server = server;
+            m_interval = interval;
+            timer1.Interval = m_interval;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -33,8 +38,8 @@ namespace Canasta
         private void button1_Click(object sender, EventArgs e)
         {
             Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-//            System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse("217.122.151.181");
-            System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse("192.168.189.140");
+            IPAddress[] addressList = Dns.GetHostAddresses(m_server);
+            System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse(addressList[0].ToString());
             System.Net.IPEndPoint remoteEP = new IPEndPoint(ipAdd, 3291);
             soc.Connect(remoteEP);
 
@@ -110,8 +115,8 @@ namespace Canasta
             if (m_creareJoc)
             {
                 Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-//                System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse("217.122.151.181");
-                System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse("192.168.189.140");
+                IPAddress[] addressList = Dns.GetHostAddresses(m_server);
+                System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse(addressList[0].ToString());
                 System.Net.IPEndPoint remoteEP = new IPEndPoint(ipAdd, 3291);
                 soc.Connect(remoteEP);
                 byte[] byData = new byte[5] { (byte)1, (byte)0, (byte)0, (byte)5, (byte)0 }; // ask game list
@@ -139,7 +144,8 @@ namespace Canasta
             else
             {
                 Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse("192.168.189.140");
+                IPAddress[] addressList = Dns.GetHostAddresses(m_server);
+                System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse(addressList[0].ToString());
                 System.Net.IPEndPoint remoteEP = new IPEndPoint(ipAdd, 3291);
                 soc.Connect(remoteEP);
 
