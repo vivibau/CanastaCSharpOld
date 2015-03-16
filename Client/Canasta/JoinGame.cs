@@ -26,6 +26,7 @@ namespace Canasta
             m_server = server;
             m_interval = interval;
             timer1.Interval = m_interval;
+            listBox2.Enabled = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -46,7 +47,8 @@ namespace Canasta
                 toolStripStatusLabel1.Text = "Eroare!";
 
             listBox1.Enabled = false;
-            listBox2.Enabled = false;
+            listBox1.Items.Clear();
+            label3.Text = "Ordinea de joc:";
         }
 
         private void activateJoin(object sender, EventArgs e)
