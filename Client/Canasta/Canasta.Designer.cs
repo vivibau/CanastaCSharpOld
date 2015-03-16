@@ -88,6 +88,7 @@
             this.optiuniToolStripMenuItem.Name = "optiuniToolStripMenuItem";
             this.optiuniToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
             this.optiuniToolStripMenuItem.Text = "Optiuni";
+            this.optiuniToolStripMenuItem.Click += new System.EventHandler(this.optiuniToolStripMenuItem_Click);
             // 
             // iesireToolStripMenuItem1
             // 
