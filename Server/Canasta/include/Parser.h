@@ -43,6 +43,7 @@ class Parser
         void            updateGameAddPlayer(std::vector<Game*>& games);
         void            updateGameBroadcast(std::vector<Game*>& games);
         void            updateGameAssignPlayer(std::vector<Game*>& games);
+        void            updateGameRemovePlayer(std::vector<Game*>& games);
 
         Game*           getSelectedGame(std::vector<Game*>& games);
 };

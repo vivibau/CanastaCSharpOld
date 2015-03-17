@@ -19,7 +19,8 @@ enum Operation_e
     ModifyGame_e    = 7,
     AddPlayer_e     = 8,
     Broadcast_e     = 9,
-    AssignPlayer_e  = 10
+    AssignPlayer_e  = 10,
+    RemovePlayer_e  = 11
 };
 
 enum ResponseCode_e
@@ -29,7 +30,8 @@ enum ResponseCode_e
     GameInexistent_e    = 2,
     GameNotOwned_e      = 3,
     GameFull_e          = 4,
-    PlayerExists_e      = 6
+    PlayerExists_e      = 6,
+    PlayerInexistent_e  = 7
 };
 
 enum GameState_e

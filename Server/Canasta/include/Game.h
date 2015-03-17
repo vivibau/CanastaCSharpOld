@@ -13,12 +13,14 @@ class Game
                                 Game() {}
                                 Game(GameType_e gameType, std::string gameName, int numberOfPlayers, int numberOfTeams);
         ResponseCode_e          addPlayer(std::string playerName);
+        ResponseCode_e          removePlayer(std::string playerName);
         std::string             getGameName();
         std::vector<Player*>&   getPlayers();
         void                    update(std::string playerName, Operation_e operation, std::string data);
-        int                     getIndexHistory();
+        int                     getHistorySize();
         GameState_e             getGameState();
         void                    setGameState(GameState_e state);
+        std::vector<Update*>&    getHistory();
     protected:
         GameType_e              m_gameType;
         std::string             m_gameName;

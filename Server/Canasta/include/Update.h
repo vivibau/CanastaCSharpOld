@@ -8,6 +8,9 @@ class Update
 {
     public:
         Update(std::string playerName, Operation_e operation, std::string data);
+        std::string getPlayerName();
+        Operation_e getOperationType();
+        std::string getData();
     protected:
     private:
         std::string         m_playerName;
