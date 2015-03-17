@@ -77,6 +77,8 @@ void Parser::parseData()
             break;
         case AssignPlayer_e: parseAssignPlayer();
             break;
+        case RemovePlayer_e:  //nothing to parse
+            break;
         default:
             break;
     }
@@ -132,6 +134,8 @@ void Parser::updateGame(std::vector<Game*>& games)
             break;
         case AssignPlayer_e:    updateGameAssignPlayer(games);
             break;
+        case RemovePlayer_e:    updateGameRemovePlayer(games);
+            break;
         default:
             break;
     }
@@ -156,6 +160,9 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
 
     if (selectedGame->getGameState() == WaitingForPlayers_e)
     {
+        int index = -1;
+        int playerIndex = -1;
+
         // return list of players
         std::vector<Player*>& players = selectedGame->getPlayers();
         int numberOfPlayers = players.size();
@@ -164,10 +171,33 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
         for (int i = 0; i < numberOfPlayers; i++)
         {
             std::string playerName = players[i]->getName();
+            if (playerName == m_playerName)
+            {
+                playerIndex = i;
+                index = players[playerIndex]->getIndexHistory();
+            }
             m_response += (char)playerName.length();
             m_response += playerName;
             m_response += (char)players[i]->getTeam();
         }
+
+        if (index > -1)
+        {
+            std::vector<Update*>& history = selectedGame->getHistory();
+            m_response += (char)(selectedGame->getHistorySize() - index);
+            for (int i = index; i < selectedGame->getHistorySize(); i++)
+            {
+                m_response += (char)(history[i]->getPlayerName()).length();
+                m_response += history[i]->getPlayerName();
+                m_response += (char)history[i]->getOperationType();
+                m_response += (char)(history[i]->getData()).length();
+                m_response += history[i]->getData();
+            }
+            players[playerIndex]->setIndexHistory(-1);
+        }
+        else
+            m_response += (char)0;
+
         return;
     }
 }
@@ -266,6 +296,19 @@ void Parser::updateGameAssignPlayer(std::vector<Game*>& games)
             players[i]->setTeam(m_selectedTeam);
             break;
         }
+}
+
+void Parser::updateGameRemovePlayer(std::vector<Game*>& games)
+{
+    Game* selectedGame = getSelectedGame(games);
+    if (selectedGame == NULL)
+    {
+        m_response += (char)GameInexistent_e;
+        return;
+    }
+
+    m_response += (char)selectedGame->removePlayer(m_playerName);
+    selectedGame->update(m_playerName, m_operation, "");
 }
 
 std::string Parser::getResponse()

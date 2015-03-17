@@ -32,6 +32,22 @@ ResponseCode_e Game::addPlayer(std::string playerName)
     return OK_e;
 }
 
+ResponseCode_e Game::removePlayer(std::string playerName)
+{
+    int pos = -1;
+    for (unsigned int i = 0; i < m_players.size(); i++)
+    {
+        if (m_players[i]->getName() == playerName)
+            pos = i;
+    }
+
+    if (pos == -1) return PlayerInexistent_e;
+    Player* p = m_players[pos];
+    m_players.erase(m_players.begin() + pos);
+    delete(p);
+    return OK_e;
+}
+
 std::vector<Player*>& Game::getPlayers()
 {
     return m_players;
@@ -42,12 +58,17 @@ void Game::update(std::string playerName, Operation_e operation, std::string dat
     m_history.push_back(new Update(playerName, operation, data));
     for (unsigned int i = 0; i < m_players.size(); i++)
         if (m_players[i]->getIndexHistory() == -1)
-            m_players[i]->setIndexHistory(m_history.size());
+            m_players[i]->setIndexHistory(m_history.size() - 1);
 }
 
-int Game::getIndexHistory()
+int Game::getHistorySize()
 {
     return m_history.size();
+}
+
+std::vector<Update*>& Game::getHistory()
+{
+    return m_history;
 }
 
 GameState_e Game::getGameState()

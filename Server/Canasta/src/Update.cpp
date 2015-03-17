@@ -6,3 +6,18 @@ Update::Update(std::string playerName, Operation_e operation, std::string data)
     m_operation = operation;
     m_data = data;
 }
+
+std::string Update::getPlayerName()
+{
+    return m_playerName;
+}
+
+Operation_e Update::getOperationType()
+{
+    return m_operation;
+}
+
+std::string Update::getData()
+{
+    return m_data;
+}
