@@ -115,7 +115,10 @@ namespace Canasta
 
             string data = "";
             data += (char)Convert.ToInt16(comboBox2.SelectedItem.ToString());
-            data += (char)0;
+            if (comboBox1.SelectedItem.ToString() == "-")
+                data += (char)0;
+            else
+                data += (char)Convert.ToInt16(comboBox1.SelectedItem.ToString());
 
             Request request = new Request(m_server, m_gameName, m_playerName, 1, data);
 
@@ -195,8 +198,8 @@ namespace Canasta
                     string name = "";
                     for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
                         name += (char)buffer[j];
-                    curPos += buffer[curPos] + 2;
-                    m_players.Add(new Player(name, (int)buffer[curPos - 1]));
+                    curPos += buffer[curPos] + 3;
+                    m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1]));
 
                     if (!searchName(name))
                         listBox2.Items.Add(name);
@@ -249,6 +252,17 @@ namespace Canasta
                 if (exists == false)
                     listBox2.Items.RemoveAt(i);
             }
+
+            for (int k = 0; k < m_numberOfTeams; k++)
+                for (int i = 0; i < m_teams[k].Items.Count; i++)
+                {
+                    bool exists = false;
+                    for (int j = 0; j < m_players.Count; j++)
+                        if (m_players[j].Name == m_teams[k].Items[i].ToString())
+                            exists = true;
+                    if (exists == false)
+                        m_teams[k].Items.RemoveAt(i);
+                }
         }
 
         public void deactivateTimer()
@@ -266,8 +280,15 @@ namespace Canasta
                 {
                     if (m_teams[i].Items.Count == m_numberOfPlayers / m_numberOfTeams)
                         return;
+                    string selectedPlayer = listBox2.SelectedItem.ToString();
                     m_teams[i].Items.Add(listBox2.SelectedItem.ToString());
                     listBox2.Items.Remove(listBox2.SelectedItem);
+
+                    string buf = (char)selectedPlayer.Length + selectedPlayer + (char)i + (char)(i + m_numberOfTeams * (m_teams[i].Items.Count - 1));
+                    Request request = new Request(m_server, m_gameName, m_playerName, 10, buf);
+                    byte[] buffer = new byte[1024];
+                    buffer = request.send();
+
                     return;
                 }
         }
@@ -279,8 +300,15 @@ namespace Canasta
                 {
                     if (m_teams[i].SelectedItem == null)
                         return;
+                    string selectedPlayer = m_teams[i].SelectedItem.ToString();
                     listBox2.Items.Add(m_teams[i].SelectedItem.ToString());
                     m_teams[i].Items.Remove(m_teams[i].SelectedItem);
+
+                    string buf = (char)selectedPlayer.Length + selectedPlayer + (char)100 + (char)100;
+                    Request request = new Request(m_server, m_gameName, m_playerName, 10, buf);
+                    byte[] buffer = new byte[1024];
+                    buffer = request.send();
+
                     return;
                 }
         }
@@ -299,6 +327,13 @@ namespace Canasta
                     m_teams[i].Items.Remove(selected);
                     m_teams[i].Items.Insert(newIndex, selected);
                     m_teams[i].SetSelected(newIndex, true);
+
+                    string selectedPlayer = m_teams[i].Items[newIndex].ToString();
+                    string buf = (char)selectedPlayer.Length + selectedPlayer + (char)i + (char)(i + m_numberOfTeams * newIndex);
+                    Request request = new Request(m_server, m_gameName, m_playerName, 10, buf);
+                    byte[] buffer = new byte[1024];
+                    buffer = request.send();
+
                     return;
                 }
         }
@@ -317,6 +352,13 @@ namespace Canasta
                     m_teams[i].Items.Remove(selected);
                     m_teams[i].Items.Insert(newIndex, selected);
                     m_teams[i].SetSelected(newIndex, true);
+
+                    string selectedPlayer = m_teams[i].Items[newIndex].ToString();
+                    string buf = (char)selectedPlayer.Length + selectedPlayer + (char)i + (char)(i + m_numberOfTeams * newIndex);
+                    Request request = new Request(m_server, m_gameName, m_playerName, 10, buf);
+                    byte[] buffer = new byte[1024];
+                    buffer = request.send();
+
                     return;
                 }
         }
@@ -378,7 +420,7 @@ namespace Canasta
 
         private void textBox4_KeyPressed(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter && textBox4.Text != "")
             {
                 Request request = new Request(m_server, m_gameName, m_playerName, 9, textBox4.Text);
                 byte[] buffer = new byte[1024];

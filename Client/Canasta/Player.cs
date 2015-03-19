@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Canasta
 {
-    class Player
+    class Player : IComparable<Player>
     {
         string m_name;
         int m_teamId;
+        int m_order;
 
         public string Name
         {
@@ -23,10 +24,26 @@ namespace Canasta
             set { m_teamId = value; }
         }
 
-        public Player(string name, int teamId)
+        public int Order
+        {
+            get { return m_order; }
+            set { m_order = value; }
+        }
+
+        public Player(string name, int teamId, int order)
         {
             m_name = name;
             m_teamId = teamId;
+            m_order = order;
+        }
+
+        public int CompareTo(Player comparePlayer)
+        {
+            // A null value means that this object is greater. 
+            if (comparePlayer == null)
+                return 1;
+            else
+                return this.m_order.CompareTo(comparePlayer.m_order);
         }
     }
 }
