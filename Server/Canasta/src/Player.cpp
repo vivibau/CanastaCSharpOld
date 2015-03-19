@@ -4,8 +4,8 @@ Player::Player(const std::string playerName)
 {
     m_name = playerName;
 //    m_gameId = gameId;
-    m_teamId = -1;
-    m_order = -1;
+    m_teamId = 100; // some big number, there will never be 100 teams in one game :)
+    m_order = 100; // some big number, there will never be 100 players in one game :)
 //    m_dirty = false;
 }
 
@@ -33,4 +33,14 @@ int Player::getTeam()
 void Player::setTeam(int team)
 {
     m_teamId = team;
+}
+
+int Player::getOrder()
+{
+    return m_order;
+}
+
+void Player::setOrder(int order)
+{
+    m_order = order;
 }

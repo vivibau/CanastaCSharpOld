@@ -13,6 +13,8 @@ class Player
         void                    setIndexHistory(int index);
         int                     getTeam();
         void                    setTeam(int team);
+        int                     getOrder();
+        void                    setOrder(int order);
     protected:
         std::string             m_name;
 //        std::string m_gameId;

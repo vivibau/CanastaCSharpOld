@@ -43,8 +43,15 @@ ResponseCode_e Game::removePlayer(std::string playerName)
 
     if (pos == -1) return PlayerInexistent_e;
     Player* p = m_players[pos];
+    int order = p->getOrder();
+    int team = p->getTeam();
+
     m_players.erase(m_players.begin() + pos);
     delete(p);
+
+    for (unsigned int i = 0; i < m_players.size(); i++)
+        if (m_players[i]->getOrder() > order && m_players[i]->getTeam() == team)
+            m_players[i]->setOrder(m_players[i]->getOrder() - m_numberOfTeams);
     return OK_e;
 }
 
