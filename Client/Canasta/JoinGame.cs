@@ -113,7 +113,6 @@ namespace Canasta
                 for (int i = 0; i < MAX_TEAMS; i++)
                     m_teams[i].Items.Clear();
 
-                bool sss = false;
                 for (int i = 0; i < buffer[0]; i++)
                 {
                     string name = "";
@@ -121,19 +120,8 @@ namespace Canasta
                         name += (char)buffer[j];
                     curPos += buffer[curPos] + 3;
                     m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1]));
-                    if ((int)buffer[curPos - 2] < 100) sss = true;
-/*
-                    if ((int)buffer[curPos - 2] == 100) // id of the team when the player does not have a team
-                        listBox2.Items.Add(name);
-                    else
-                        m_teams[(int)buffer[curPos - 2]].Items.Add(name);
- */
                 }
 
-                if (sss)
-                {
-                    int x = 0;
-                }
                 m_players.Sort();
                 for (int i = 0; i < m_players.Count; i++)
                     if (m_players[i].TeamId == 100) // id of the team when the player does not have a team
@@ -185,10 +173,7 @@ namespace Canasta
                 Request request = new Request(m_server, m_gameName, m_playerName, 9, textBox4.Text);
                 byte[] buffer = new byte[1024];
                 buffer = request.send();
-                /*
-                                textBox3.AppendText("[" + m_playerName + "]: ");
-                                textBox3.AppendText(textBox4.Text);
-                                textBox3.AppendText("\n");*/
+
                 textBox4.Text = "";
             }
         }
@@ -200,10 +185,7 @@ namespace Canasta
                 Request request = new Request(m_server, m_gameName, m_playerName, 9, textBox4.Text);
                 byte[] buffer = new byte[1024];
                 buffer = request.send();
-                /*
-                                textBox3.AppendText("[" + m_playerName + "]: ");
-                                textBox3.AppendText(textBox4.Text);
-                                textBox3.AppendText("\n");*/
+
                 textBox4.Text = "";
             }
         }

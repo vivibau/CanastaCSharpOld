@@ -425,10 +425,7 @@ namespace Canasta
                 Request request = new Request(m_server, m_gameName, m_playerName, 9, textBox4.Text);
                 byte[] buffer = new byte[1024];
                 buffer = request.send();
-/*
-                textBox3.AppendText("[" + m_playerName + "]: ");
-                textBox3.AppendText(textBox4.Text);
-                textBox3.AppendText("\n");*/
+
                 textBox4.Text = "";
             }
         }
@@ -440,10 +437,7 @@ namespace Canasta
                 Request request = new Request(m_server, m_gameName, m_playerName, 9, textBox4.Text);
                 byte[] buffer = new byte[1024];
                 buffer = request.send();
-/*
-                textBox3.AppendText("[" + m_playerName + "]: ");
-                textBox3.AppendText(textBox4.Text);
-                textBox3.AppendText("\n");*/
+
                 textBox4.Text = "";
             }
         }
