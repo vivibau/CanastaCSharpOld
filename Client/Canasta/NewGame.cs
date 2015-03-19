@@ -24,7 +24,7 @@ namespace Canasta
         int m_numberOfPlayers;
         int m_numberOfTeams;
 
-//        List<Player> m_players;
+        List<Player> m_players;
         ListBox[] m_teams;
         Button[] m_addTeam;
         Button[] m_removeTeam;
@@ -40,6 +40,7 @@ namespace Canasta
             m_server = server;
             m_interval = interval;
             timer1.Interval = m_interval;
+            m_players = new List<Player>();
             
             m_teams = new ListBox[MAX_TEAMS];
             m_addTeam = new Button[MAX_TEAMS];
@@ -47,7 +48,7 @@ namespace Canasta
             m_upTeam = new Button[MAX_TEAMS];
             m_downTeam = new Button[MAX_TEAMS];
 
-            this.Size = new Size(720, 570);
+            this.Size = new Size(720, 530);
 
             for (int i = 0; i < MAX_TEAMS; i++)
             {
@@ -120,28 +121,36 @@ namespace Canasta
 
             byte[] buffer = new byte[1024];
             buffer = request.send();
+
             if (buffer[0] == 0)
-                toolStripStatusLabel1.Text = "Joc creat cu succes.";
+            {
+                // Game created, continue with Join functionality
+                m_gameName = textBox1.Text;
+                this.Text = "Canasta - Joc: " + m_gameName;
+                timer1.Enabled = false;
+                button1.Enabled = false;
+                button1.Text = "Start joc";
+
+                label3.Text = "Mesaje:";
+                listBox1.Visible = false;
+                textBox3.Visible = true;
+                textBox4.Visible = true;
+                button3.Visible = true;
+                m_creareJoc = false;
+
+                textBox1.Enabled = false;
+                textBox2.Enabled = false;
+                comboBox1.Enabled = false;
+                comboBox2.Enabled = false;
+
+                timer1.Enabled = true;
+            }
             else
-                toolStripStatusLabel1.Text = "Eroare! Jocul exista deja.";
-
-            // Game created, continue with Join functionality
-            m_gameName = textBox1.Text;
-            this.Text = "Canasta - Joc: " + m_gameName;
-            timer1.Enabled = false;
-            button1.Enabled = false;
-            button1.Text = "Start joc";
-
-            label3.Text = "Ordinea de joc:";
-            listBox1.Items.Clear();
-            m_creareJoc = false;
-
-            textBox1.Enabled = false;
-            textBox2.Enabled = false;
-            comboBox1.Enabled = false;
-            comboBox2.Enabled = false;
-
-            timer1.Enabled = true;
+            {
+                m_gameName = "";
+                m_playerName = ""; 
+                MessageBox.Show("Jocul exista deja!");
+            }
         }
 
         private void checkFields(object sender, EventArgs e)
@@ -179,26 +188,66 @@ namespace Canasta
             }
             else
             {
-                // populate list of players
-                if (buffer[0] != listBox1.Items.Count)
+                int curPos = 1;
+                m_players.Clear();
+                for (int i = 0; i < buffer[0]; i++)
                 {
-                    int curPos = 1;
-                    for (int i = 0; i < buffer[0]; i++)
-                    {
-                        string name = "";
-                        for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
-                            name += (char)buffer[j];
-                        curPos += buffer[curPos] + 2;
-                        ListBox tmpListBox = new ListBox();
-                        tmpListBox.Items.Add(name);
+                    string name = "";
+                    for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
+                        name += (char)buffer[j];
+                    curPos += buffer[curPos] + 2;
+                    m_players.Add(new Player(name, (int)buffer[curPos - 1]));
 
-                        if (!listBox1.Items.Contains(tmpListBox.Items[0]))
-                        {
-                            listBox2.Items.Add(name);
-                            listBox1.Items.Add(name);
-                        }
+                    if (!searchName(name))
+                        listBox2.Items.Add(name);
+                }
+                updateDeletedPlayers();
+
+                // updates
+                curPos++;
+                for (int i = 0; i < buffer[curPos - 1]; i++)
+                {
+                    string name = "";
+                    for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
+                        name += (char)buffer[j];
+                    curPos += buffer[curPos] + 1;
+                    if (buffer[curPos] == 9)
+                    {
+                        curPos++;
+                        string message = "";
+                        for (int k = curPos + 1; k < curPos + 1 + buffer[curPos]; k++)
+                            message += (char)buffer[k];
+                        curPos += buffer[curPos] + 1;
+                        textBox3.AppendText("[" + name + "]: ");
+                        textBox3.AppendText(message);
+                        textBox3.AppendText("\n");
                     }
                 }
+            }
+        }
+
+        private bool searchName(string name)
+        {
+            for (int i = 0; i < listBox2.Items.Count; i++)
+                if (listBox2.Items.IndexOf(name) != -1)
+                    return true;
+            for (int j = 0; j < m_numberOfTeams; j++)
+                for (int i = 0; i < m_teams[j].Items.Count; i++)
+                    if (m_teams[j].Items.IndexOf(name) != -1)
+                        return true;
+            return false;
+        }
+
+        private void updateDeletedPlayers()
+        {
+            for (int i = 0; i < listBox2.Items.Count; i++)
+            {
+                bool exists = false;
+                for (int j = 0; j < m_players.Count; j++)
+                    if (m_players[j].Name == listBox2.Items[i].ToString())
+                        exists = true;
+                if (exists == false)
+                    listBox2.Items.RemoveAt(i);
             }
         }
 
@@ -261,7 +310,7 @@ namespace Canasta
                 {
                     if (m_teams[i].SelectedItem == null)
                         return;
-                    if (m_teams[i].SelectedIndex == m_teams[i].Items.Count)
+                    if (m_teams[i].SelectedIndex == m_teams[i].Items.Count - 1)
                         return;
                     int newIndex = m_teams[i].SelectedIndex + 1;
                     object selected = m_teams[i].SelectedItem;
@@ -291,9 +340,9 @@ namespace Canasta
                 m_numberOfTeams = Convert.ToInt16(comboBox1.SelectedItem.ToString());
 
             if (comboBox1.SelectedItem.ToString() == "-")
-                this.Size = new Size(720, 570);
+                this.Size = new Size(720, 530);
             else
-                this.Size = new Size(1106, 570);
+                this.Size = new Size(1106, 530);
 
             int selectedNumberOfTeams = 0;
             if (comboBox1.SelectedItem.ToString() != "-")
@@ -324,6 +373,36 @@ namespace Canasta
                 m_removeTeam[i].Visible = true;
                 m_upTeam[i].Visible = true;
                 m_downTeam[i].Visible = true;
+            }
+        }
+
+        private void textBox4_KeyPressed(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Request request = new Request(m_server, m_gameName, m_playerName, 9, textBox4.Text);
+                byte[] buffer = new byte[1024];
+                buffer = request.send();
+/*
+                textBox3.AppendText("[" + m_playerName + "]: ");
+                textBox3.AppendText(textBox4.Text);
+                textBox3.AppendText("\n");*/
+                textBox4.Text = "";
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (textBox4.Text != "")
+            {
+                Request request = new Request(m_server, m_gameName, m_playerName, 9, textBox4.Text);
+                byte[] buffer = new byte[1024];
+                buffer = request.send();
+/*
+                textBox3.AppendText("[" + m_playerName + "]: ");
+                textBox3.AppendText(textBox4.Text);
+                textBox3.AppendText("\n");*/
+                textBox4.Text = "";
             }
         }
     }

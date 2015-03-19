@@ -108,6 +108,14 @@ namespace Canasta
         private void button2_Click(object sender, EventArgs e)
         {
             timer1.Enabled = false;
+
+            if (m_joined)
+            {
+                Request request = new Request(m_server, m_gameName, m_playerName, 11, "");
+                byte[] buffer = new byte[1024];
+                buffer = request.send();
+            }
+
             Close();
         }
 
