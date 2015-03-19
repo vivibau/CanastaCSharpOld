@@ -22,12 +22,14 @@ class Parser
         Operation_e     m_operation;
 
         std::string     m_data;
+        int             m_dataSize;
         std::string     m_playerName;
         std::string     m_selectedPlayer;
 
         int             m_numberOfPlayers;
         int             m_numberOfTeams;
         int             m_selectedTeam;
+        int             m_selectedOrder;
 
         std::string     m_message;
         std::string     m_response;

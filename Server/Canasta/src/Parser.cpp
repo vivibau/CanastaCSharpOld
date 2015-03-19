@@ -40,7 +40,6 @@ Parser::Parser(const char* input, ssize_t length)
     dataOffset = operationOffset + operationSize + 1;
 //    m_dataLength = dataOffset;
 
-    m_data = "";
     for (int i = dataOffset; i < dataOffset + dataSize; i++)
     {
         m_data += input[i];
@@ -103,7 +102,9 @@ void Parser::parseAssignPlayer()
     for (int i = 0; i < m_data[0]; i++)
         m_selectedPlayer += m_data[i + 1];
 
-    m_selectedTeam = m_data[m_data[0] + 2];
+    m_selectedTeam = (int)m_data[m_data[0] + 1];
+    m_selectedOrder = (int)m_data[m_data[0] + 2];
+//    std::cout << m_selectedPlayer  << " " << m_data[0] << " " << m_selectedTeam << std::endl;
 }
 
 Game* Parser::getSelectedGame(std::vector<Game*>& games)
@@ -179,7 +180,11 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
             m_response += (char)playerName.length();
             m_response += playerName;
             m_response += (char)players[i]->getTeam();
+            m_response += (char)players[i]->getOrder();
+            std::cout << playerName << " " << players[i]->getTeam() << " " << players[i]->getOrder() << std::endl;
         }
+
+        std::cout << "-----\n";
 
         if (index > -1)
         {
@@ -293,9 +298,34 @@ void Parser::updateGameAssignPlayer(std::vector<Game*>& games)
     for (unsigned int i = 0; i < players.size(); i++)
         if (players[i]->getName() == m_selectedPlayer)
         {
-            players[i]->setTeam(m_selectedTeam);
+            if (players[i]->getOrder() == 100 || players[i]->getOrder() == m_selectedOrder)
+            {
+                players[i]->setOrder(m_selectedOrder);
+                players[i]->setTeam(m_selectedTeam);
+                m_response += (char)OK_e;
+                return;
+            }
+
+            if (m_selectedTeam == players[i]->getTeam())
+            {
+                for (unsigned int ii = 0; ii < players.size(); ii++)
+                    if (players[ii]->getOrder() == m_selectedOrder)
+                    {
+                        players[ii]->setOrder(players[i]->getOrder());
+                        players[i]->setOrder(m_selectedOrder);
+                        m_response += (char)OK_e;
+                        return;
+                    }
+            }
+            else
+            {
+                players[i]->setOrder(m_selectedOrder);
+                players[i]->setTeam(m_selectedTeam);
+            }
+
             break;
         }
+    m_response += (char)OK_e;
 }
 
 void Parser::updateGameRemovePlayer(std::vector<Game*>& games)
