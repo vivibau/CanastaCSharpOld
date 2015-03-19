@@ -38,7 +38,6 @@ Parser::Parser(const char* input, ssize_t length)
 
     dataSize = input[operationOffset + operationSize];
     dataOffset = operationOffset + operationSize + 1;
-//    m_dataLength = dataOffset;
 
     for (int i = dataOffset; i < dataOffset + dataSize; i++)
     {
@@ -104,7 +103,6 @@ void Parser::parseAssignPlayer()
 
     m_selectedTeam = (int)m_data[m_data[0] + 1];
     m_selectedOrder = (int)m_data[m_data[0] + 2];
-//    std::cout << m_selectedPlayer  << " " << m_data[0] << " " << m_selectedTeam << std::endl;
 }
 
 Game* Parser::getSelectedGame(std::vector<Game*>& games)
@@ -181,10 +179,7 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
             m_response += playerName;
             m_response += (char)players[i]->getTeam();
             m_response += (char)players[i]->getOrder();
-            std::cout << playerName << " " << players[i]->getTeam() << " " << players[i]->getOrder() << std::endl;
         }
-
-        std::cout << "-----\n";
 
         if (index > -1)
         {
