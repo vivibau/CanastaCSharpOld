@@ -11,6 +11,14 @@ Game::Game(GameType_e gameType, std::string gameName, int numberOfPlayers, int n
     m_gameState = WaitingForPlayers_e;
 }
 
+Game::~Game()
+{
+    for (unsigned int i = 0; i < m_players.size(); i++)
+        delete m_players[i];
+    for (unsigned int i = 0; i < m_history.size(); i++)
+        delete m_history[i];
+}
+
 std::string Game::getGameName()
 {
     return m_gameName;

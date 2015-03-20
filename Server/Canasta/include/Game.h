@@ -10,8 +10,8 @@
 class Game
 {
     public:
-                                Game() {}
                                 Game(GameType_e gameType, std::string gameName, int numberOfPlayers, int numberOfTeams);
+                                ~Game();
         ResponseCode_e          addPlayer(std::string playerName);
         ResponseCode_e          removePlayer(std::string playerName);
         std::string             getGameName();
@@ -20,7 +20,7 @@ class Game
         int                     getHistorySize();
         GameState_e             getGameState();
         void                    setGameState(GameState_e state);
-        std::vector<Update*>&    getHistory();
+        std::vector<Update*>&   getHistory();
     protected:
         GameType_e              m_gameType;
         std::string             m_gameName;
