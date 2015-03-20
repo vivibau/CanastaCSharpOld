@@ -105,6 +105,12 @@ namespace Canasta
         private void button2_Click(object sender, EventArgs e)
         {
             timer1.Enabled = false;
+            if (m_gameName != "")
+            {
+                Request request = new Request(m_server, m_gameName, m_playerName, 2, "");
+                byte[] buffer = new byte[1024];
+                buffer = request.send();
+            }
             Close();
         }
 
@@ -187,7 +193,6 @@ namespace Canasta
         private void askStatus(object sender, EventArgs e)
         {
             Request request = new Request(m_server, m_gameName, m_playerName, 4, "");
-
             byte[] buffer = new byte[1024];
             buffer = request.send();
 
@@ -196,8 +201,8 @@ namespace Canasta
                 // populate list of games
                 listBox1.Items.Clear();
 
-                int curPos = 1;
-                for (int i = 0; i < buffer[0]; i++)
+                int curPos = 2;
+                for (int i = 0; i < buffer[1]; i++)
                 {
                     int size = buffer[curPos];
                     string name = "";
@@ -211,9 +216,9 @@ namespace Canasta
             }
             else
             {
-                int curPos = 1;
+                int curPos = 2;
                 m_players.Clear();
-                for (int i = 0; i < buffer[0]; i++)
+                for (int i = 0; i < buffer[1]; i++)
                 {
                     string name = "";
                     for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
@@ -234,7 +239,7 @@ namespace Canasta
                     for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
                         name += (char)buffer[j];
                     curPos += buffer[curPos] + 1;
-                    if (buffer[curPos] == 9)
+                    if (buffer[curPos] == 9)  // op type = broadcast
                     {
                         curPos++;
                         string message = "";

@@ -50,6 +50,11 @@ namespace Canasta
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (listBox1.SelectedItem == null)
+            {
+                button1.Enabled = false;
+                return;
+            }
             m_gameName = listBox1.SelectedItem.ToString();
             m_playerName = textBox2.Text;
             Request request = new Request(m_server, m_gameName, m_playerName, 3, "");
@@ -62,7 +67,10 @@ namespace Canasta
                 m_joined = true;
             }
             else
+            {
                 MessageBox.Show("Eroare! Jucatorul cu acest nume exista deja sau jocul e deja complet.");
+                return;
+            }
 
             listBox1.Visible = false;
             label3.Text = "Mesaje:";
@@ -81,18 +89,25 @@ namespace Canasta
         private void askStatus(object sender, EventArgs e)
         {
             Request request = new Request(m_server, m_gameName, m_playerName, 4, "");
-
             byte[] buffer = new byte[1024];
             buffer = request.send();
 
+            if (buffer[0] == 2)
+            {
+                // game inexistent, was probably deleted
+                timer1.Enabled = false;
+                MessageBox.Show("Jocul nu mai exista!");
+                Close();
+            }
+
             if (m_joined == false)
             {
-                if (buffer[0] != listBox1.Items.Count)
+                if (buffer[1] != listBox1.Items.Count)
                 {
                     listBox1.Items.Clear();
 
-                    int curPos = 1;
-                    for (int i = 0; i < buffer[0]; i++)
+                    int curPos = 2;
+                    for (int i = 0; i < buffer[1]; i++)
                     {
                         int size = buffer[curPos];
                         string name = "";
@@ -107,13 +122,13 @@ namespace Canasta
             }
             else
             {
-                int curPos = 1;
+                int curPos = 2;
                 m_players.Clear();
                 listBox2.Items.Clear();
                 for (int i = 0; i < MAX_TEAMS; i++)
                     m_teams[i].Items.Clear();
 
-                for (int i = 0; i < buffer[0]; i++)
+                for (int i = 0; i < buffer[1]; i++)
                 {
                     string name = "";
                     for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
@@ -137,7 +152,7 @@ namespace Canasta
                     for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
                         name += (char)buffer[j];
                     curPos += buffer[curPos] + 1;
-                    if (buffer[curPos] == 9)
+                    if (buffer[curPos] == 9) // op type = broadcast
                     {
                         curPos++;
                         string message = "";
