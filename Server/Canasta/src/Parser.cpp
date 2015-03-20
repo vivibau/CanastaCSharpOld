@@ -138,7 +138,15 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
     Game* selectedGame = getSelectedGame(games);
     if (selectedGame == NULL)
     {
+        if (m_gameName != "")
+        {
+            // game has been deleted
+            m_response += (char)GameInexistent_e;
+            return;
+        }
+
         // return list of games
+        m_response += (char)OK_e;
         int numberOfGames = games.size();
         m_response += (char)numberOfGames;
         for (int i = 0; i < numberOfGames; i++)
@@ -156,6 +164,7 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
     if (selectedGame->getGameState() == WaitingForPlayers_e)
     {
         // return list of players
+        m_response += (char)OK_e;
         m_response += (char)numberOfPlayers;
 
         for (int i = 0; i < numberOfPlayers; i++)
@@ -166,6 +175,9 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
             m_response += (char)players[i]->getOrder();
         }
     }
+
+    if (m_response.size() == 0)
+        m_response += (char)OK_e;
 
     int index = -1;
     int playerIndex = -1;
