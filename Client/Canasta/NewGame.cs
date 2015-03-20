@@ -110,6 +110,27 @@ namespace Canasta
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (m_creareJoc == false)
+            {
+                // send message that the game has started
+                button1.Enabled = false;
+                for (int i = 0; i < m_teams.Length; i++)
+                {
+                    m_teams[i].Enabled = false;
+                    m_addTeam[i].Enabled = false;
+                    m_removeTeam[i].Enabled = false;
+                    m_upTeam[i].Enabled = false;
+                    m_downTeam[i].Enabled = false;
+                }
+                listBox2.Enabled = false;
+                textBox4.Enabled = false;
+                button3.Enabled = false;
+
+                Request req = new Request(m_server, m_gameName, m_playerName, 12, "");
+                byte[] buf = new byte[1024];
+                buf = req.send();
+
+            }
             m_gameName = textBox1.Text;
             m_playerName = textBox2.Text;
 
@@ -121,7 +142,6 @@ namespace Canasta
                 data += (char)Convert.ToInt16(comboBox1.SelectedItem.ToString());
 
             Request request = new Request(m_server, m_gameName, m_playerName, 1, data);
-
             byte[] buffer = new byte[1024];
             buffer = request.send();
 
@@ -226,6 +246,8 @@ namespace Canasta
                         textBox3.AppendText("\n");
                     }
                 }
+                if (m_players.Count == m_numberOfPlayers)
+                    button1.Enabled = true;
             }
         }
 
