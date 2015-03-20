@@ -20,7 +20,7 @@ enum Operation_e
     AddPlayer_e     = 8,
     Broadcast_e     = 9,
     AssignPlayer_e  = 10,
-    LeaveGame_e  = 11,
+    LeaveGame_e     = 11,
     StartGame_e     = 12
 };
 
