@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <stdlib.h>
 
 Game::Game(GameType_e gameType, std::string gameName, int numberOfPlayers, int numberOfTeams)
 {
@@ -94,4 +95,37 @@ GameState_e Game::getGameState()
 void Game::setGameState(GameState_e state)
 {
     m_gameState = state;
+}
+
+void Game::generateGame()
+{
+    std::vector<int> tmp;
+    tmp.clear();
+    for (int i = 8; i < 114; i++)
+        tmp.push_back(i);
+
+    m_stack.clear();
+    for (int i = 0; i < 106; i++)
+    {
+        int selectedIndex = rand() % tmp.size();
+        m_stack.push_back(tmp[selectedIndex]);
+        tmp.erase(tmp.begin() + selectedIndex);
+    }
+
+    m_rare = m_stack.back();
+    m_stack.pop_back();
+
+    for (int i = 0; i < m_numberOfPlayers; i++)
+    {
+        for (int j = 0; j < 14; j++)
+        {
+            m_players[i]->addPieceOnBoard(m_stack.back());
+            m_stack.pop_back();
+        }
+        update(m_players[i]->getName(), GetBoard_e, m_players[i]->getBoard());
+    }
+
+    m_currentPlayer = (m_currentPlayer + 1) % m_numberOfPlayers;
+    m_players[m_currentPlayer]->addPieceOnBoard(m_stack.back());
+    m_stack.pop_back();
 }

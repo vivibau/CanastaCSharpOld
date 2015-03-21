@@ -21,6 +21,7 @@ class Game
         GameState_e             getGameState();
         void                    setGameState(GameState_e state);
         std::vector<Update*>&   getHistory();
+        void                    generateGame();
     protected:
         GameType_e              m_gameType;
         std::string             m_gameName;
@@ -30,6 +31,9 @@ class Game
         int                     m_currentPlayer;
         GameState_e             m_gameState;
         std::vector<Update*>    m_history;
+        std::vector<int>        m_stack;
+        std::vector<int>        m_pot;
+        int                     m_rare;
     private:
 };
 
