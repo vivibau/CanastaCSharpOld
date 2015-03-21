@@ -24,6 +24,8 @@ namespace Canasta
         int m_numberOfPlayers;
         int m_numberOfTeams;
 
+//        Game m_game;
+
         List<Player> m_players;
         ListBox[] m_teams;
         Button[] m_addTeam;
@@ -31,7 +33,7 @@ namespace Canasta
         Button[] m_upTeam;
         Button[] m_downTeam;
 
-        public NewGame(string server, int interval)
+        public NewGame(string server, int interval, ref Game game)
         {
             InitializeComponent();
             m_creareJoc = true;
@@ -41,6 +43,8 @@ namespace Canasta
             m_interval = interval;
             timer1.Interval = m_interval;
             m_players = new List<Player>();
+
+//            m_game = game;
             
             m_teams = new ListBox[MAX_TEAMS];
             m_addTeam = new Button[MAX_TEAMS];
@@ -132,10 +136,10 @@ namespace Canasta
                 textBox4.Enabled = false;
                 button3.Enabled = false;
 
-                Request req = new Request(m_server, m_gameName, m_playerName, 12, "");
+                Request req = new Request(m_server, m_gameName, m_playerName, 12, "");  // start game
                 byte[] buf = new byte[1024];
                 buf = req.send();
-
+                return;
             }
             m_gameName = textBox1.Text;
             m_playerName = textBox2.Text;
@@ -201,8 +205,8 @@ namespace Canasta
                 // populate list of games
                 listBox1.Items.Clear();
 
-                int curPos = 2;
-                for (int i = 0; i < buffer[1]; i++)
+                int curPos = 3;
+                for (int i = 0; i < buffer[2]; i++)
                 {
                     int size = buffer[curPos];
                     string name = "";
@@ -216,40 +220,42 @@ namespace Canasta
             }
             else
             {
-                int curPos = 2;
-                m_players.Clear();
-                for (int i = 0; i < buffer[1]; i++)
+                int curPos = 3;
+                if (buffer[1] != 2) // game state != in progress
                 {
-                    string name = "";
-                    for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
-                        name += (char)buffer[j];
-                    curPos += buffer[curPos] + 3;
-                    m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1]));
+                    m_players.Clear();
+                    for (int i = 0; i < buffer[2]; i++)
+                    {
+                        string name = "";
+                        for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
+                            name += (char)buffer[j];
+                        curPos += buffer[curPos] + 3;
+                        m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1]));
 
-                    if (!searchName(name))
-                        listBox2.Items.Add(name);
+                        if (!searchName(name))
+                            listBox2.Items.Add(name);
+                    }
+                    updateDeletedPlayers();
+                    curPos++;
                 }
-                updateDeletedPlayers();
 
                 // updates
-                curPos++;
                 for (int i = 0; i < buffer[curPos - 1]; i++)
                 {
-                    string name = "";
-                    for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
-                        name += (char)buffer[j];
-                    curPos += buffer[curPos] + 1;
-                    if (buffer[curPos] == 9)  // op type = broadcast
+                    Update update = new Update(buffer, ref curPos);
+                    if (update.Operation == 9) // op type = broadcast
                     {
-                        curPos++;
-                        string message = "";
-                        for (int k = curPos + 1; k < curPos + 1 + buffer[curPos]; k++)
-                            message += (char)buffer[k];
-                        curPos += buffer[curPos] + 1;
-                        textBox3.AppendText("[" + name + "]: ");
-                        textBox3.AppendText(message);
+                        textBox3.AppendText("[" + update.Name + "]: ");
+                        textBox3.AppendText(update.Data);
                         textBox3.AppendText("\n");
                     }
+                    if (update.Operation == 13) // op type = get board
+                        if (update.Name == m_playerName)
+                        {
+//                            m_game = new Game(m_playerName, update.Data);
+                            Canasta.m_game = new Game(m_playerName, update.Data);
+                            Close();
+                        }
                 }
                 if (m_players.Count == m_numberOfPlayers)
                     button1.Enabled = true;

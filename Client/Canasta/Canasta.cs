@@ -15,6 +15,7 @@ namespace Canasta
     {
         string m_server;
         int m_interval;
+        public static Game m_game;
 
         public Canasta()
         {
@@ -39,13 +40,14 @@ namespace Canasta
 
         private void creareToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form newGame = new NewGame(m_server, m_interval);
+            Form newGame = new NewGame(m_server, m_interval, ref m_game);
             newGame.ShowDialog();
+            MessageBox.Show(m_game.Board.Length.ToString());
         }
 
         private void alaturareToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form joinGame = new JoinGame(m_server, m_interval);
+            Form joinGame = new JoinGame(m_server, m_interval, ref m_game);
             joinGame.ShowDialog();
         }
 

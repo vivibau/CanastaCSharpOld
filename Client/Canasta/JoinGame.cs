@@ -18,13 +18,15 @@ namespace Canasta
 
         string m_gameName = "";
         string m_playerName = "";
+        int m_order = -1;
         List<Player> m_players;
         ListBox[] m_teams;
         string m_server;
         int m_interval;
         bool m_joined = false;
+//        Game m_game;
 
-        public JoinGame(string server, int interval)
+        public JoinGame(string server, int interval, ref Game game)
         {
             InitializeComponent();
             m_server = server;
@@ -45,7 +47,7 @@ namespace Canasta
                 Controls.Add(m_teams[i]);
                 m_teams[i].Enabled = false;
             }
-
+//            m_game = game;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -102,12 +104,12 @@ namespace Canasta
 
             if (m_joined == false)
             {
-                if (buffer[1] != listBox1.Items.Count)
+                if (buffer[2] != listBox1.Items.Count)
                 {
                     listBox1.Items.Clear();
 
-                    int curPos = 2;
-                    for (int i = 0; i < buffer[1]; i++)
+                    int curPos = 3;
+                    for (int i = 0; i < buffer[2]; i++)
                     {
                         int size = buffer[curPos];
                         string name = "";
@@ -122,47 +124,49 @@ namespace Canasta
             }
             else
             {
-                int curPos = 2;
-                m_players.Clear();
-                listBox2.Items.Clear();
-                for (int i = 0; i < MAX_TEAMS; i++)
-                    m_teams[i].Items.Clear();
-
-                for (int i = 0; i < buffer[1]; i++)
+                int curPos = 3;
+                if (buffer[1] != 2) // game state != in progress
                 {
-                    string name = "";
-                    for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
-                        name += (char)buffer[j];
-                    curPos += buffer[curPos] + 3;
-                    m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1]));
+                    m_players.Clear();
+                    listBox2.Items.Clear();
+                    for (int i = 0; i < MAX_TEAMS; i++)
+                        m_teams[i].Items.Clear();
+
+                    for (int i = 0; i < buffer[2]; i++)
+                    {
+                        string name = "";
+                        for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
+                            name += (char)buffer[j];
+                        curPos += buffer[curPos] + 3;
+                        m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1]));
+                    }
+
+                    m_players.Sort();
+                    for (int i = 0; i < m_players.Count; i++)
+                        if (m_players[i].TeamId == 100) // id of the team when the player does not have a team
+                            listBox2.Items.Add(m_players[i].Name);
+                        else
+                            m_teams[m_players[i].TeamId].Items.Add(m_players[i].Name);
+                    curPos++;
                 }
 
-                m_players.Sort();
-                for (int i = 0; i < m_players.Count; i++)
-                    if (m_players[i].TeamId == 100) // id of the team when the player does not have a team
-                        listBox2.Items.Add(m_players[i].Name);
-                    else
-                        m_teams[m_players[i].TeamId].Items.Add(m_players[i].Name);
-
                 // updates
-                curPos++;
                 for (int i = 0; i < buffer[curPos - 1]; i++)
                 {
-                    string name = "";
-                    for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
-                        name += (char)buffer[j];
-                    curPos += buffer[curPos] + 1;
-                    if (buffer[curPos] == 9) // op type = broadcast
+                    Update update = new Update(buffer, ref curPos);
+                    if (update.Operation == 9) // op type = broadcast
                     {
-                        curPos++;
-                        string message = "";
-                        for (int k = curPos + 1; k < curPos + 1 + buffer[curPos]; k++)
-                            message += (char)buffer[k];
-                        curPos += buffer[curPos] + 1;
-                        textBox3.AppendText("[" + name + "]: ");
-                        textBox3.AppendText(message);
+                        textBox3.AppendText("[" + update.Name + "]: ");
+                        textBox3.AppendText(update.Data);
                         textBox3.AppendText("\n");
                     }
+                    if (update.Operation == 13) // op type = get board
+                        if (update.Name == m_playerName)
+                        {
+//                            m_game = new Game(m_playerName, update.Data);
+                            Canasta.m_game = new Game(m_playerName, update.Data);
+                            Close();
+                        }
                 }
             }
         }
