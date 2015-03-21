@@ -14,14 +14,12 @@ enum Operation_e
     DeleteGame_e    = 2,
     JoinGame_e      = 3,
     AskStatus_e     = 4,
-    AskGameList_e   = 5,
-    AskPlayers_e    = 6,
     ModifyGame_e    = 7,
-    AddPlayer_e     = 8,
     Broadcast_e     = 9,
     AssignPlayer_e  = 10,
     LeaveGame_e     = 11,
-    StartGame_e     = 12
+    StartGame_e     = 12,
+    GetBoard_e      = 13
 };
 
 enum ResponseCode_e
@@ -38,9 +36,21 @@ enum ResponseCode_e
 
 enum GameState_e
 {
+    StateUnknown_e      = 0,
     WaitingForPlayers_e = 1,
     InProgress_e        = 2,
     Ended_e             = 3
+};
+
+
+enum PieceState_e
+{
+    InStack_e           = 0,
+    Rare_e              = 1,
+    InPot_e             = 2,
+    OnBoard_e           = 3,
+    Displayed_e         = 4,
+    Displayed2_e        = 5
 };
 
 #endif // INCLUDES_H_INCLUDED

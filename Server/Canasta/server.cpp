@@ -29,6 +29,7 @@ int main(int argc, char** argv)
     TCPAcceptor* acceptor = NULL;
 
     std::vector<Game*> games;
+    srand(time(NULL));
 
     acceptor = new TCPAcceptor(atoi(argv[1]));
 
