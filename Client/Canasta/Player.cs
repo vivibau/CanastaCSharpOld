@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 
 namespace Canasta
 {
@@ -11,6 +11,10 @@ namespace Canasta
         string m_name;
         int m_teamId;
         int m_order;
+
+        string m_board;
+        string m_displayed;
+        string m_displayed2;
 
         public string Name
         {
@@ -30,11 +34,12 @@ namespace Canasta
             set { m_order = value; }
         }
 
-        public Player(string name, int teamId, int order)
+        public Player(string name, int teamId, int order, string board)
         {
             m_name = name;
             m_teamId = teamId;
             m_order = order;
+            m_board = board;
         }
 
         public int CompareTo(Player comparePlayer)

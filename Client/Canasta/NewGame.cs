@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Canasta
@@ -230,7 +230,7 @@ namespace Canasta
                         for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
                             name += (char)buffer[j];
                         curPos += buffer[curPos] + 3;
-                        m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1]));
+                        m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1], ""));
 
                         if (!searchName(name))
                             listBox2.Items.Add(name);
@@ -253,7 +253,7 @@ namespace Canasta
                         if (update.Name == m_playerName)
                         {
 //                            m_game = new Game(m_playerName, update.Data);
-                            Canasta.m_game = new Game(m_playerName, update.Data);
+                            Canasta.m_game = new Game(update.Data);
                             Close();
                         }
                 }
