@@ -19,7 +19,7 @@ enum Operation_e
     AssignPlayer_e  = 10,
     LeaveGame_e     = 11,
     StartGame_e     = 12,
-    GetBoard_e      = 13,
+    GetFullGame_e   = 13,
     AskGameList_e   = 14,
     AskPlayerList_e = 15
 };

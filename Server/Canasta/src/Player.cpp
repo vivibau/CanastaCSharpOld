@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <stdio.h>
 #include <vector>
 
 Player::Player(const std::string playerName)
@@ -80,13 +81,24 @@ std::string Player::getDisplayed()
 
 std::string Player::getBoard()
 {
-    std::string board = "";
+    std::string result = "";
 
-    board += (char)m_board.size();
+    result += (char)m_board.size();
     for (unsigned int i = 0; i < m_board.size(); i++)
-        board += (char)m_board[i];
+        result += (char)m_board[i];
 
-    return board;
+    return result;
+}
+
+std::string Player::getSection(std::vector<int> section)
+{
+    std::string result = "";
+
+    result += (char)section.size();
+    for (unsigned int i = 0; i < section.size(); i++)
+        result += (char)section[i];
+
+    return result;
 }
 
 std::string Player::responseNameTeamOrder()
@@ -103,6 +115,19 @@ std::string Player::responseNameTeamOrder()
 std::string Player::responseFullPlayer()
 {
     std::string result = "";
+    result += (char)m_name.length();
+    result += m_name;
+    result += (char)m_teamId;
+    result += (char)m_order;
+    char tmpScore[7];
+    sprintf(tmpScore,"%d",m_points);
+    std::string score = std::string(tmpScore);
+    result += (char)score.length();
+    result += score;
+
+    result += getSection(m_board);
+    result += getSection(m_displayed);
+    result += getSection(m_displayed2);
 
     return result;
 }

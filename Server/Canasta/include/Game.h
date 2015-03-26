@@ -23,15 +23,16 @@ class Game
         std::vector<Update*>&   getHistory();
         void                    generateGame();
         std::string             responsePlayersNameTeamOrder();
+        std::string             responseFullGame();
         std::string             responseHistory(int index);
     protected:
         GameType_e              m_gameType;
         std::string             m_gameName;
-        std::vector<Player*>    m_players;
         int                     m_numberOfPlayers;
         int                     m_numberOfTeams;
-        int                     m_currentPlayer;
         GameState_e             m_gameState;
+        std::vector<Player*>    m_players;
+        int                     m_currentPlayer;
         std::vector<Update*>    m_history;
         std::vector<int>        m_stack;
         std::vector<int>        m_pot;

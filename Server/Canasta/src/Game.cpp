@@ -122,12 +122,15 @@ void Game::generateGame()
             m_players[i]->addPieceOnBoard(m_stack.back());
             m_stack.pop_back();
         }
-        update(m_players[i]->getName(), GetBoard_e, m_players[i]->getBoard());
+        if (m_players[i]->getIndexHistory() == -1)
+            m_players[i]->setIndexHistory(m_history.size());
     }
 
     m_currentPlayer = (m_currentPlayer + 1) % m_numberOfPlayers;
     m_players[m_currentPlayer]->addPieceOnBoard(m_stack.back());
     m_stack.pop_back();
+
+    m_history.push_back(new Update("", GetFullGame_e, responseFullGame()));
 }
 
 std::string Game::responsePlayersNameTeamOrder()
@@ -137,6 +140,23 @@ std::string Game::responsePlayersNameTeamOrder()
 
     for (unsigned int i = 0; i < m_players.size(); i++)
         result += m_players[i]->responseNameTeamOrder();
+
+    return result;
+}
+
+std::string Game::responseFullGame()
+{
+    std::string result = "";
+    result += (char)m_gameType;
+    result += (char)m_gameName.length();
+    result += m_gameName;
+
+    result += (char)m_players.size();
+    for (unsigned int i = 0; i < m_players.size(); i++)
+        result += m_players[i]->responseFullPlayer();
+
+    result += (char)m_currentPlayer;
+    result += (char)m_rare;
 
     return result;
 }

@@ -21,11 +21,11 @@ class Player
         void                    displayPiece2(int piece);
         std::string             getDisplayed();
         std::string             getBoard();
+        std::string             getSection(std::vector<int> section);
         std::string             responseNameTeamOrder();
         std::string             responseFullPlayer();
     protected:
         std::string             m_name;
-//        std::string m_gameId;
         int                     m_teamId;
         int                     m_order;
         int                     m_indexHistory;
@@ -33,7 +33,6 @@ class Player
         std::vector<int>        m_board;
         std::vector<int>        m_displayed;
         std::vector<int>        m_displayed2;
-//        bool m_dirty;
     private:
 };
 
