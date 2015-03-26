@@ -11,6 +11,7 @@ class Update
         std::string getPlayerName();
         Operation_e getOperationType();
         std::string getData();
+        std::string responseData();
     protected:
     private:
         std::string         m_playerName;

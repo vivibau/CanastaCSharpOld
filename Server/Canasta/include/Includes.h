@@ -53,4 +53,10 @@ enum PieceState_e
     Displayed2_e        = 5
 };
 
+enum AskStatusOpType_e
+{
+    AskGameList_e       = 0,
+    AskPlayerList_e     = 1
+};
+
 #endif // INCLUDES_H_INCLUDED

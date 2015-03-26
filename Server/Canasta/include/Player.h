@@ -21,6 +21,8 @@ class Player
         void                    displayPiece2(int piece);
         std::string             getDisplayed();
         std::string             getBoard();
+        std::string             responseNameTeamOrder();
+        std::string             responseFullPlayer();
     protected:
         std::string             m_name;
 //        std::string m_gameId;

@@ -21,3 +21,15 @@ std::string Update::getData()
 {
     return m_data;
 }
+
+std::string Update::responseData()
+{
+    std::string result = "";
+    result += (char)m_playerName.length();
+    result += m_playerName;
+    result += (char)m_operation;
+    result += (char)m_data.length();
+    result += m_data;
+
+    return result;
+}

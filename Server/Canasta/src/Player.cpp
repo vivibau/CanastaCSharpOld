@@ -88,3 +88,21 @@ std::string Player::getBoard()
 
     return board;
 }
+
+std::string Player::responseNameTeamOrder()
+{
+    std::string result = "";
+    result += (char)m_name.length();
+    result += m_name;
+    result += (char)m_teamId;
+    result += (char)m_order;
+
+    return result;
+}
+
+std::string Player::responseFullPlayer()
+{
+    std::string result = "";
+
+    return result;
+}

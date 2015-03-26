@@ -1,48 +1,51 @@
 #include "Parser.h"
 #include "Player.h"
 
-Parser::Parser(const char* input, ssize_t length)
+std::string readString(char** source)
 {
-    int gameNameSize;
-    int gameNameOffset;
+    std::string result = "";
+    int length = (*source)[0];
+    (*source)++;
 
-    int playerNameSize;
-    int playerNameOffset;
-
-    int operationSize = 1;
-    int operationOffset;
-
-    int dataSize;
-    int dataOffset;
-
-    m_gameType = (GameType_e)input[0];
-    gameNameSize = input[1];
-    gameNameOffset = 2;
-
-    m_gameName = "";
-    for (int i = gameNameOffset; i < gameNameOffset + gameNameSize; i++)
+    for (int i = 0; i < length; i++)
     {
-        m_gameName += input[i];
+        result += (*source)[i];
     }
-    playerNameSize = input[gameNameOffset + gameNameSize];
-    playerNameOffset = gameNameOffset + gameNameSize + 1;
 
-    m_playerName = "";
-    for (int i = playerNameOffset; i < playerNameOffset + playerNameSize; i++)
+    (*source) += length;
+    return result;
+}
+
+int readInt(char** source)
+{
+    int result = (*source)[0];
+
+    (*source)++;
+    return result;
+}
+
+std::string Parser::responseGameList(std::vector<Game*>& games)
+{
+    std::string result = "";
+    int numberOfGames = games.size();
+    result += (char)numberOfGames;
+    for (int i = 0; i < numberOfGames; i++)
     {
-        m_playerName += input[i];
+        std::string gameName = games[i]->getGameName();
+        m_response += (char)gameName.length();
+        m_response += gameName;
     }
-    operationOffset = playerNameOffset + playerNameSize;
 
-    m_operation = (Operation_e)input[operationOffset];
+    return result;
+}
 
-    dataSize = input[operationOffset + operationSize];
-    dataOffset = operationOffset + operationSize + 1;
-
-    for (int i = dataOffset; i < dataOffset + dataSize; i++)
-    {
-        m_data += input[i];
-    }
+Parser::Parser(char* input, ssize_t length)
+{
+    m_gameType      = (GameType_e)readInt(&input);
+    m_gameName      = readString(&input);
+    m_playerName    = readString(&input);
+    m_operation     = (Operation_e)readInt(&input);
+    m_data          = readString(&input);
 
     m_response = "";
 }
@@ -148,14 +151,7 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
         // return list of games
         m_response += (char)OK_e;
         m_response += (char)StateUnknown_e;
-        int numberOfGames = games.size();
-        m_response += (char)numberOfGames;
-        for (int i = 0; i < numberOfGames; i++)
-        {
-            std::string gameName = games[i]->getGameName();
-            m_response += (char)gameName.length();
-            m_response += gameName;
-        }
+        m_response += responseGameList(games);
         return;
     }
 
@@ -167,15 +163,7 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
         // return list of players
         m_response += (char)OK_e;
         m_response += (char)selectedGame->getGameState();
-        m_response += (char)numberOfPlayers;
-
-        for (int i = 0; i < numberOfPlayers; i++)
-        {
-            m_response += (char)players[i]->getName().length();
-            m_response += players[i]->getName();
-            m_response += (char)players[i]->getTeam();
-            m_response += (char)players[i]->getOrder();
-        }
+        m_response += selectedGame->responsePlayersNameTeamOrder();
     }
 
     if (m_response.size() == 0)
@@ -196,21 +184,18 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
 
     if (index > -1)
     {
-        std::vector<Update*>& history = selectedGame->getHistory();
-        m_response += (char)(history.size() - index);
-        for (int i = index; i < selectedGame->getHistorySize(); i++)
-        {
-            m_response += (char)(history[i]->getPlayerName()).length();
-            m_response += history[i]->getPlayerName();
-            m_response += (char)history[i]->getOperationType();
-            m_response += (char)(history[i]->getData()).length();
-            m_response += history[i]->getData();
-        }
+        m_response += selectedGame->responseHistory(index);
         players[playerIndex]->setIndexHistory(-1);
     }
     else
         m_response += (char)0;
     return;
+/*
+    switch (m_data[0])
+    {
+        case
+    }
+*/
 }
 
 void Parser::updateGameAssignPlayer(std::vector<Game*>& games)

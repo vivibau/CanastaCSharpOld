@@ -237,7 +237,7 @@
 1426289002 source:/home/bau/code/Server/Canasta/src/Game.cpp
 	"Game.h"
 
-1426585478 source:/home/bau/code/Canasta/Server/Canasta/server.cpp
+1427361931 source:/home/bau/code/Canasta/Server/Canasta/server.cpp
 	<stdio.h>
 	<stdlib.h>
 	<vector>
@@ -258,34 +258,37 @@
 	<unistd.h>
 	<string>
 
-1426753735 /home/bau/code/Canasta/Server/Canasta/include/Game.h
+1427361504 /home/bau/code/Canasta/Server/Canasta/include/Game.h
 	"Player.h"
 	<vector>
 	<iostream>
 	"Includes.h"
 	"Update.h"
 
-1426759182 /home/bau/code/Canasta/Server/Canasta/include/Player.h
+1427361288 /home/bau/code/Canasta/Server/Canasta/include/Player.h
 	<iostream>
+	<vector>
 
-1426589300 /home/bau/code/Canasta/Server/Canasta/include/Includes.h
+1427358182 /home/bau/code/Canasta/Server/Canasta/include/Includes.h
 
 1426753710 /home/bau/code/Canasta/Server/Canasta/include/Update.h
 	<iostream>
 	"Includes.h"
 
-1426758898 /home/bau/code/Canasta/Server/Canasta/include/Parser.h
+1427358294 /home/bau/code/Canasta/Server/Canasta/include/Parser.h
 	<stdio.h>
 	<iostream>
 	"Includes.h"
 	<vector>
 	"Game.h"
 
-1426753723 source:/home/bau/code/Canasta/Server/Canasta/src/Game.cpp
+1427361654 source:/home/bau/code/Canasta/Server/Canasta/src/Game.cpp
 	"Game.h"
+	<stdlib.h>
 
-1426759732 source:/home/bau/code/Canasta/Server/Canasta/src/Player.cpp
+1427361684 source:/home/bau/code/Canasta/Server/Canasta/src/Player.cpp
 	"Player.h"
+	<vector>
 
 1426585478 source:/home/bau/code/Canasta/Server/Canasta/src/TCPAcceptor.cpp
 	<stdio.h>
@@ -313,7 +316,7 @@
 1426753900 source:/home/bau/code/Canasta/Server/Canasta/src/Update.cpp
 	"Update.h"
 
-1426760670 source:/home/bau/code/Canasta/Server/Canasta/src/Parser.cpp
+1427361725 source:/home/bau/code/Canasta/Server/Canasta/src/Parser.cpp
 	"Parser.h"
 	"Player.h"
 

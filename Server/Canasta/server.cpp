@@ -19,19 +19,20 @@ int main()
 int main(int argc, char** argv)
 {
 
-
+/*
     if (argc < 2 || argc > 4) {
         printf("usage: server <port>\n");
         exit(1);
     }
-
+*/
     TCPStream* stream = NULL;
     TCPAcceptor* acceptor = NULL;
 
     std::vector<Game*> games;
     srand(time(NULL));
 
-    acceptor = new TCPAcceptor(atoi(argv[1]));
+//    acceptor = new TCPAcceptor(atoi(argv[1]));
+    acceptor = new TCPAcceptor(3291);
 
     if (acceptor->start() == 0) {
         while (1) {

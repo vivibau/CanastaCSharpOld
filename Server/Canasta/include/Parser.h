@@ -10,7 +10,7 @@
 class Parser
 {
     public:
-                        Parser(const char* input, ssize_t length);
+                        Parser(char* input, ssize_t length);
                         ~Parser();
         void            parseData();
         void            updateGame(std::vector<Game*>& games);
@@ -48,6 +48,7 @@ class Parser
         void            updateGameStartGame(std::vector<Game*>& games);
 
         Game*           getSelectedGame(std::vector<Game*>& games);
+        std::string     responseGameList(std::vector<Game*>& games);
 };
 
 #endif // PARSER_H

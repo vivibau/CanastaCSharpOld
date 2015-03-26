@@ -22,6 +22,8 @@ class Game
         void                    setGameState(GameState_e state);
         std::vector<Update*>&   getHistory();
         void                    generateGame();
+        std::string             responsePlayersNameTeamOrder();
+        std::string             responseHistory(int index);
     protected:
         GameType_e              m_gameType;
         std::string             m_gameName;

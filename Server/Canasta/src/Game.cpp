@@ -129,3 +129,24 @@ void Game::generateGame()
     m_players[m_currentPlayer]->addPieceOnBoard(m_stack.back());
     m_stack.pop_back();
 }
+
+std::string Game::responsePlayersNameTeamOrder()
+{
+    std::string result = "";
+    result += (char)m_players.size();
+
+    for (unsigned int i = 0; i < m_players.size(); i++)
+        result += m_players[i]->responseNameTeamOrder();
+
+    return result;
+}
+
+std::string Game::responseHistory(int index)
+{
+    std::string result = "";
+    result += (char)(m_history.size() - index);
+    for (unsigned int i = index; i < m_history.size(); i++)
+        result += m_history[i]->responseData();
+
+    return result;
+}
