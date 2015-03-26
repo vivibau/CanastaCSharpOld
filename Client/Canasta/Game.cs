@@ -8,8 +8,11 @@ namespace Canasta
 {
     public class Game
     {
+        string m_gameName;
         Player[] m_players;
         int m_rarePiece;
+        int m_state;
+        int m_currentPlayer;
 
         public event GameCreated evGameCreated;
         public EventArgs e = null;
@@ -46,6 +49,11 @@ namespace Canasta
                 m_players[i] = new Player(playerName, playerOrder, teamId, playerBoard);
             }
             m_rarePiece = data[pos];
+        }
+
+        public string Name
+        {
+            get { return m_gameName; }
         }
 
         public int getNumberOfPlayers()

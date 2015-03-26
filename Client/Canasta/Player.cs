@@ -50,5 +50,12 @@ namespace Canasta
             else
                 return this.m_order.CompareTo(comparePlayer.m_order);
         }
+
+        private void sortBoard()
+        {
+            char[] tmp = m_board.ToCharArray();
+            Array.Sort(tmp);
+            m_board = new string(tmp);
+        }
     }
 }

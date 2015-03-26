@@ -73,6 +73,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs" />
+    <Compile Include="SizeLocation.cs" />
     <Compile Include="Update.cs" />
     <EmbeddedResource Include="Canasta.resx">
       <DependentUpon>Canasta.cs</DependentUpon>
@@ -109,6 +110,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Board.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Piece.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
