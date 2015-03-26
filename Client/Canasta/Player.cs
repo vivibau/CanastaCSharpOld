@@ -11,6 +11,7 @@ namespace Canasta
         string m_name;
         int m_teamId;
         int m_order;
+        int m_score;
 
         string m_board;
         string m_displayed;
@@ -40,6 +41,20 @@ namespace Canasta
             m_teamId = teamId;
             m_order = order;
             m_board = board;
+        }
+
+        public Player(string fullData)
+        {
+            Utils u = new Utils();
+            int pos = 0;
+            m_name = u.readNextString(fullData, ref pos);
+            m_teamId = u.readNextInt(fullData, ref pos);
+            m_order = u.readNextInt(fullData, ref pos);
+            string score = u.readNextString(fullData, ref pos);
+            m_score = Convert.ToInt32(score);
+            m_board = u.readNextString(fullData, ref pos);
+            m_displayed = u.readNextString(fullData, ref pos);
+            m_displayed2 = u.readNextString(fullData, ref pos);
         }
 
         public int CompareTo(Player comparePlayer)

@@ -20,35 +20,18 @@ namespace Canasta
 
         public Game(string data)
         {
-            // format:
-            // - number of players
-            // - for each player: name (length + name), order, 14 pieces (15 if order = 0)
-            // - rare piece
-            m_players = new Player[data[0]];
             int pos = 1;
-            for (int i = 0; i < data[0]; i++)  // 0 to number of players
-            {
-                int playerNameLength = data[pos];
-                string playerName = "";
-                pos++;
-                for (int j = 0; j < playerNameLength; j++)
-                {
-                    playerName += data[pos];
-                    pos++;
-                }
-                int playerOrder = data[pos];
-                pos++;
-                int teamId = data[pos];
-                pos++;
-                string playerBoard = "";
-                for (int j = 0; j < (playerOrder == 0 ? 15 : 14); j++)
-                {
-                    playerBoard += data[pos];
-                    pos++;
-                }
-                m_players[i] = new Player(playerName, playerOrder, teamId, playerBoard);
-            }
-            m_rarePiece = data[pos];
+            Utils u = new Utils();
+            m_gameName = u.readNextString(data, ref pos);
+
+            int numberOfPlayers = u.readNextInt(data, ref pos);
+            m_players = new Player[numberOfPlayers];
+            for (int i = 0; i < numberOfPlayers; i++)
+                m_players[i] = new Player(u.readNextString(data, ref pos));
+
+            m_state = u.readNextInt(data, ref pos);
+            m_currentPlayer = u.readNextInt(data, ref pos);
+            m_rarePiece = u.readNextInt(data, ref pos);
         }
 
         public string Name

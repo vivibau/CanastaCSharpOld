@@ -75,6 +75,7 @@
     <Compile Include="Request.cs" />
     <Compile Include="SizeLocation.cs" />
     <Compile Include="Update.cs" />
+    <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Canasta.resx">
       <DependentUpon>Canasta.cs</DependentUpon>
     </EmbeddedResource>

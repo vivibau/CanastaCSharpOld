@@ -165,7 +165,7 @@ namespace Canasta
                         textBox3.AppendText("\n");
                     }
                     if (update.Operation == 13) // op type = get board
-                        if (update.Name == m_playerName)
+//                        if (update.Name == m_playerName)
                         {
                             Canasta.m_game = new Game(update.Data);
                             Close();
