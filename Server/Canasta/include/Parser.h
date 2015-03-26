@@ -38,6 +38,8 @@ class Parser
         void            parseBroadcast();
         void            parseCreateGame();
 
+        void            updateGameAskGameList(std::vector<Game*>& games);
+        void            updateGameAskPlayerListAndUpdates(std::vector<Game*>& games);
         void            updateGameAskStatus(std::vector<Game*>& games);
         void            updateGameAssignPlayer(std::vector<Game*>& games);
         void            updateGameBroadcast(std::vector<Game*>& games);

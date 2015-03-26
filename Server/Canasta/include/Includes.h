@@ -19,7 +19,9 @@ enum Operation_e
     AssignPlayer_e  = 10,
     LeaveGame_e     = 11,
     StartGame_e     = 12,
-    GetBoard_e      = 13
+    GetBoard_e      = 13,
+    AskGameList_e   = 14,
+    AskPlayerList_e = 15
 };
 
 enum ResponseCode_e
@@ -52,11 +54,12 @@ enum PieceState_e
     Displayed_e         = 4,
     Displayed2_e        = 5
 };
-
+/*
 enum AskStatusOpType_e
 {
     AskGameList_e       = 0,
     AskPlayerList_e     = 1
 };
+*/
 
 #endif // INCLUDES_H_INCLUDED

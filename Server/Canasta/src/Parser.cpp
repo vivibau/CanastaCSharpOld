@@ -24,6 +24,33 @@ int readInt(char** source)
     return result;
 }
 
+std::string getUpdates(Game* selectedGame, std::string playerName)
+{
+    std::string result = "";
+    std::vector<Player*>& players = selectedGame->getPlayers();
+    int numberOfPlayers = players.size();
+
+    int index = -1;
+    int playerIndex = -1;
+    for (int i = 0; i < numberOfPlayers; i++)
+        if (players[i]->getName() == playerName)
+        {
+            playerIndex = i;
+            index = players[i]->getIndexHistory();
+            break;
+        }
+
+    if (index > -1)
+    {
+        result += selectedGame->responseHistory(index);
+        players[playerIndex]->setIndexHistory(-1);
+    }
+    else
+        result += (char)0;
+
+    return result;
+}
+
 std::string Parser::responseGameList(std::vector<Game*>& games)
 {
     std::string result = "";
@@ -58,6 +85,10 @@ void Parser::parseData()
 {
     switch (m_operation)
     {
+        case AskGameList_e:
+            break;
+        case AskPlayerList_e:
+            break;
         case AskStatus_e:
             break;
         case AssignPlayer_e:    parseAssignPlayer();
@@ -115,6 +146,10 @@ void Parser::updateGame(std::vector<Game*>& games)
 {
     switch (m_operation)
     {
+        case AskGameList_e:     updateGameAskGameList(games);
+            break;
+        case AskPlayerList_e:   updateGameAskPlayerListAndUpdates(games);
+            break;
         case AskStatus_e:       updateGameAskStatus(games);
             break;
         case AssignPlayer_e:    updateGameAssignPlayer(games);
@@ -134,6 +169,43 @@ void Parser::updateGame(std::vector<Game*>& games)
         default:
             break;
     }
+}
+
+void Parser::updateGameAskGameList(std::vector<Game*>& games)
+{
+    Game* selectedGame = getSelectedGame(games);
+    if (selectedGame == NULL)
+    {
+        if (m_gameName != "")
+        {
+            // game has been deleted
+            m_response += (char)GameInexistent_e;
+            return;
+        }
+
+        // return list of games
+        m_response += (char)OK_e;
+        m_response += (char)StateUnknown_e;
+        m_response += responseGameList(games);
+        return;
+    }
+}
+
+void Parser::updateGameAskPlayerListAndUpdates(std::vector<Game*>& games)
+{
+    Game* selectedGame = getSelectedGame(games);
+    if (selectedGame == NULL)
+    {
+        m_response += (char)GameInexistent_e;
+        return;
+    }
+
+    m_response += (char)OK_e;
+    m_response += (char)selectedGame->getGameState();
+    m_response += selectedGame->responsePlayersNameTeamOrder();
+    m_response += getUpdates(selectedGame, m_playerName);
+
+    return;
 }
 
 void Parser::updateGameAskStatus(std::vector<Game*>& games)
@@ -190,12 +262,6 @@ void Parser::updateGameAskStatus(std::vector<Game*>& games)
     else
         m_response += (char)0;
     return;
-/*
-    switch (m_data[0])
-    {
-        case
-    }
-*/
 }
 
 void Parser::updateGameAssignPlayer(std::vector<Game*>& games)
