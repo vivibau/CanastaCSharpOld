@@ -32,8 +32,8 @@ std::string Parser::responseGameList(std::vector<Game*>& games)
     for (int i = 0; i < numberOfGames; i++)
     {
         std::string gameName = games[i]->getGameName();
-        m_response += (char)gameName.length();
-        m_response += gameName;
+        result += (char)gameName.length();
+        result += gameName;
     }
 
     return result;
