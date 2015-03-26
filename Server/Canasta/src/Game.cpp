@@ -155,6 +155,7 @@ std::string Game::responseFullGame()
     for (unsigned int i = 0; i < m_players.size(); i++)
         result += m_players[i]->responseFullPlayer();
 
+    result += (char)m_gameState;
     result += (char)m_currentPlayer;
     result += (char)m_rare;
 
