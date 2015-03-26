@@ -90,20 +90,12 @@ namespace Canasta
 
         private void askStatus(object sender, EventArgs e)
         {
-            Request request = new Request(m_server, m_gameName, m_playerName, 4, "");
-            byte[] buffer = new byte[1024];
-            buffer = request.send();
-
-            if (buffer[0] == 2)
-            {
-                // game inexistent, was probably deleted
-                timer1.Enabled = false;
-                MessageBox.Show("Jocul nu mai exista!");
-                Close();
-            }
-
             if (m_joined == false)
             {
+                Request request = new Request(m_server, m_gameName, m_playerName, 14, "");
+                byte[] buffer = new byte[1024];
+                buffer = request.send();
+
                 if (buffer[2] != listBox1.Items.Count)
                 {
                     listBox1.Items.Clear();
@@ -124,6 +116,18 @@ namespace Canasta
             }
             else
             {
+                Request request = new Request(m_server, m_gameName, m_playerName, 15, "");
+                byte[] buffer = new byte[1024];
+                buffer = request.send();
+
+                if (buffer[0] == 2)
+                {
+                    // game inexistent, was probably deleted
+                    timer1.Enabled = false;
+                    MessageBox.Show("Jocul nu mai exista!");
+                    Close();
+                }
+
                 int curPos = 3;
                 if (buffer[1] != 2) // game state != in progress
                 {
@@ -163,7 +167,6 @@ namespace Canasta
                     if (update.Operation == 13) // op type = get board
                         if (update.Name == m_playerName)
                         {
-//                            m_game = new Game(m_playerName, update.Data);
                             Canasta.m_game = new Game(update.Data);
                             Close();
                         }
