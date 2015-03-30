@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Canasta
 {
-    class Formation
+    class Formation : IComparable<Formation>
     {
         List<int> m_pieces;
         int m_size;
@@ -41,6 +41,17 @@ namespace Canasta
         public int getNumberOfPieces()
         {
             return m_pieces.Count;
+        }
+
+        public int CompareTo(Formation formation)
+        {
+            int value1 = m_pieces[0] / 8 == 14 ? 2 : m_pieces[0] / 8;
+            int value2 = formation.Pieces[0] / 8 == 14 ? 2 : formation.Pieces[0] / 8;
+
+            return value1.CompareTo(value2);
+//            if (value1 > value2)
+//                return 1;
+//            return -1;
         }
     }
 }

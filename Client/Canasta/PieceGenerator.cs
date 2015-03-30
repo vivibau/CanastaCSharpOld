@@ -28,13 +28,6 @@ namespace Canasta
             // but the rest are random
             // so make the series one element bigger and remove the last element (now 114)
             m_pieces.Remove(m_pieces[m_pieces.Count() - 1]);
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"log.txt"))
-            {
-                for (int i = 0; i < m_pieces.Count(); i++)
-                {
-                    file.WriteLine(m_pieces[i] + " ");
-                }
-            }
         }
 
         public int getNext()

@@ -37,6 +37,7 @@ namespace Canasta
                 Formation f = new Formation();
                 f.addPiece(piece);
                 m_formations.Add(f);
+                m_formations.Sort();
             }
 
             arrangePieces();
