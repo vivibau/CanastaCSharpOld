@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Canasta
 {
-    class Player : IComparable<Player>
+    public class Player : IComparable<Player>
     {
         string m_name;
         int m_teamId;
@@ -35,12 +35,20 @@ namespace Canasta
             set { m_order = value; }
         }
 
-        public Player(string name, int teamId, int order, string board)
+        public string Board
+        {
+            get { return m_board; }
+        }
+
+        public Player(string name, int teamId, int order, int score, string board, string displayed, string displayed2)
         {
             m_name = name;
             m_teamId = teamId;
             m_order = order;
+            m_score = score;
             m_board = board;
+            m_displayed = displayed;
+            m_displayed2 = displayed2;
         }
 
         public Player(string fullData)

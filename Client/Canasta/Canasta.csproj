@@ -50,6 +50,7 @@
     <Compile Include="Canasta.Designer.cs">
       <DependentUpon>Canasta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formation.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="JoinGame.cs">
       <SubType>Form</SubType>
@@ -69,11 +70,15 @@
     <Compile Include="Options.Designer.cs">
       <DependentUpon>Options.cs</DependentUpon>
     </Compile>
+    <Compile Include="PieceGenerator.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs" />
+    <Compile Include="Board.cs" />
+    <Compile Include="Row.cs" />
     <Compile Include="SizeLocation.cs" />
+    <Compile Include="Table.cs" />
     <Compile Include="Update.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Canasta.resx">

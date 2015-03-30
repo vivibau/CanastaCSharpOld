@@ -33,11 +33,12 @@
             this.creareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alaturareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iesireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optiuniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iesireToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.addPieceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +49,9 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.jocToolStripMenuItem,
             this.optiuniToolStripMenuItem,
-            this.iesireToolStripMenuItem1});
+            this.iesireToolStripMenuItem1,
+            this.testToolStripMenuItem1,
+            this.addPieceToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1232, 28);
@@ -60,8 +63,7 @@
             this.jocToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.creareToolStripMenuItem,
             this.alaturareToolStripMenuItem,
-            this.iesireToolStripMenuItem,
-            this.testToolStripMenuItem});
+            this.iesireToolStripMenuItem});
             this.jocToolStripMenuItem.Name = "jocToolStripMenuItem";
             this.jocToolStripMenuItem.Size = new System.Drawing.Size(42, 24);
             this.jocToolStripMenuItem.Text = "Joc";
@@ -87,13 +89,6 @@
             this.iesireToolStripMenuItem.Text = "Iesire";
             this.iesireToolStripMenuItem.Click += new System.EventHandler(this.iesireToolStripMenuItem_Click);
             // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
-            this.testToolStripMenuItem.Text = "Test";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
-            // 
             // optiuniToolStripMenuItem
             // 
             this.optiuniToolStripMenuItem.Name = "optiuniToolStripMenuItem";
@@ -107,6 +102,13 @@
             this.iesireToolStripMenuItem1.Size = new System.Drawing.Size(56, 24);
             this.iesireToolStripMenuItem1.Text = "Iesire";
             this.iesireToolStripMenuItem1.Click += new System.EventHandler(this.iesireToolStripMenuItem1_Click);
+            // 
+            // testToolStripMenuItem1
+            // 
+            this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
+            this.testToolStripMenuItem1.Size = new System.Drawing.Size(45, 24);
+            this.testToolStripMenuItem1.Text = "test";
+            this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
             // 
             // statusStrip1
             // 
@@ -124,6 +126,13 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 20);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // addPieceToolStripMenuItem
+            // 
+            this.addPieceToolStripMenuItem.Name = "addPieceToolStripMenuItem";
+            this.addPieceToolStripMenuItem.Size = new System.Drawing.Size(87, 24);
+            this.addPieceToolStripMenuItem.Text = "add piece";
+            this.addPieceToolStripMenuItem.Click += new System.EventHandler(this.addPieceToolStripMenuItem_Click);
             // 
             // Canasta
             // 
@@ -157,7 +166,8 @@
         private System.Windows.Forms.ToolStripMenuItem iesireToolStripMenuItem1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addPieceToolStripMenuItem;
     }
 }
 

@@ -36,6 +36,8 @@ namespace Canasta
         private Button m_buttonBoardLeft;
         private Button m_buttonBoardRight;
 
+        private Button[] m_buttonBoard;
+
         public Canasta()
         {
             InitializeComponent();
@@ -47,23 +49,81 @@ namespace Canasta
             }
             toolStripStatusLabel1.Text = this.Size.Width + "x" + this.Size.Height;
 
+
+            PieceGenerator p = new PieceGenerator();
+
             string data = "";
+            data += (char)1;  // game type
+            data += (char)1;  // game name length
+            data += "A";
             data += (char)2;  // number of players
             data += (char)1;  // player name length
-            data += "A";      // player name
-            data += (char)0;  // player order
+            data += "B";      // player name
             data += (char)1;  // player team id
-            data += "123456789012345";  // player board
-            data += (char)1;  // and again...
-            data += "B";
-            data += (char)1;
-            data += (char)2;
-            data += "12345678901234";
+            data += (char)0;  // player order
+            data += (char)1;  // score length
+            data += "0";      // score
+
+            data += (char)14; // board length
+            for (int i = 0; i < 14; i++)
+                data += (char)p.getNext();
+/*
+            data += (char)18;  // player board
+            data += (char)19;
+            data += (char)41;
+            data += (char)8;
+            data += (char)16;
+            data += (char)22;
+            data += (char)81;
+            data += (char)80;
+            data += (char)55;
+            data += (char)56;
+            data += (char)57;
+            data += (char)58;
+            data += (char)90;
+            data += (char)100;
+ */
+            data += (char)0;  // displayed length
+            data += (char)0;  // displayed2 length
+
+            data += (char)1;  // player name length
+            data += "C";      // player name
+            data += (char)1;  // player team id
+            data += (char)0;  // player order
+            data += (char)1;  // score length
+            data += "0";      // score
+
+            data += (char)14; // board length
+            for (int i = 0; i < 14; i++)
+                data += (char)p.getNext();
+
+/*
+            data += (char)20;  // player board
+            data += (char)21;
+            data += (char)42;
+            data += (char)9;
+            data += (char)17;
+            data += (char)32;
+            data += (char)33;
+            data += (char)34;
+            data += (char)44;
+            data += (char)45;
+            data += (char)46;
+            data += (char)66;
+            data += (char)67;
+            data += (char)68;
+ */
+            data += (char)0;  // displayed length
+            data += (char)0;  // displayed2 length
+
+            data += (char)0;  // game state
+            data += (char)0;  // current player
             data += (char)18; // rare piece
+                
 
             m_game = new Game(data);
             m_game.evGameCreated += new Game.GameCreated(this.onGameStarted);
-
+            
             m_sizeLocation = new List<SizeLocation>();
             m_sizeLocation.Clear();
         }
@@ -148,8 +208,8 @@ namespace Canasta
             m_panelBoard.AutoScroll = true;
             m_panelBoard.Location = new Point(464, 444);
             m_panelBoard.Size = new Size(623, 177);
-            m_panelBoard.BackgroundImage = Properties.Resources.Board;
-            m_panelBoard.BackgroundImageLayout = ImageLayout.Stretch;
+//            m_panelBoard.BackgroundImage = Properties.Resources.Board;
+//            m_panelBoard.BackgroundImageLayout = ImageLayout.Stretch;
             m_panelBoard.BackColor = SystemColors.ControlLight;
             m_panelBoard.Name = "m_panelBoard";
             m_sizeLocation.Add(new SizeLocation(m_panelBoard.Name, new Point(464, 444), new Size(623, 177)));
@@ -170,6 +230,60 @@ namespace Canasta
             m_buttonBoardRight.Name = "m_buttonBoardRight";
             m_sizeLocation.Add(new SizeLocation(m_buttonBoardRight.Name, new Point(1093, 444), new Size(23, 177)));
             this.Controls.Add(m_buttonBoardRight);
+
+            Board board = new Board();
+            string pieces = m_game.getPlayer("B").Board;
+            for (int i = 0; i < pieces.Length; i++)
+                board.addPiece(pieces[i]);
+
+            List<Table> tables = board.Tables;
+            Table table = tables[0];
+            Row up = table.Up;
+            List<Formation> formations = up.Formations;
+            int x = up.Spacing / 2;
+            int buttonIndex = 0;
+            m_buttonBoard = new Button[table.getNumberOfPieces()];
+            foreach (Formation f in formations)
+            {
+                List<int> tmp = f.Pieces;
+                tmp.Sort();
+                foreach (int i in tmp)
+                {
+                    m_buttonBoard[buttonIndex] = new Button();
+                    m_buttonBoard[buttonIndex].Location = new Point(x, 10);
+                    m_buttonBoard[buttonIndex].Size = new Size(53, 78);
+//                    m_buttonBoard[buttonIndex].BackgroundImage = Properties.Resources.Piece;
+//                    m_buttonBoard[buttonIndex].BackgroundImageLayout = ImageLayout.Stretch;
+                    m_buttonBoard[buttonIndex].Text = (i/8).ToString();
+                    m_buttonBoard[buttonIndex].Font = new System.Drawing.Font("Microsoft Sans Serif", 12.14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    m_panelBoard.Controls.Add(m_buttonBoard[buttonIndex]);
+                    x += 52;
+                    buttonIndex++;
+                }
+                x += up.Spacing;
+            }
+            Row down = table.Down;
+            formations = down.Formations;
+            x = down.Spacing / 2;
+            foreach (Formation f in formations)
+            {
+                List<int> tmp = f.Pieces;
+                tmp.Sort();
+                foreach (int i in tmp)
+                {
+                    m_buttonBoard[buttonIndex] = new Button();
+                    m_buttonBoard[buttonIndex].Location = new Point(x, 90);
+                    m_buttonBoard[buttonIndex].Size = new Size(53, 78);
+//                    m_buttonBoard[buttonIndex].BackgroundImage = Properties.Resources.Piece;
+//                    m_buttonBoard[buttonIndex].BackgroundImageLayout = ImageLayout.Stretch;
+                    m_buttonBoard[buttonIndex].Text = (i/8).ToString();
+                    m_buttonBoard[buttonIndex].Font = new System.Drawing.Font("Microsoft Sans Serif", 12.14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    m_panelBoard.Controls.Add(m_buttonBoard[buttonIndex]);
+                    x += 52;
+                    buttonIndex++;
+                }
+                x += down.Spacing;
+            }
         }
 
         private void onResizeForm(object sender, EventArgs e)
@@ -240,11 +354,6 @@ namespace Canasta
             }
         }
 
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_game.generateEvent();
-        }
-
         private void askStatus(object sender, EventArgs e)
         {
 //            Request request = new Request(m_server, m_game.Name, m_playerName, 4, "");
@@ -313,6 +422,16 @@ namespace Canasta
                     button1.Enabled = true;
             }
              */
+        }
+
+        private void testToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            m_game.generateEvent();
+        }
+
+        private void addPieceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

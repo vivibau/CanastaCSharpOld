@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canasta", "Canasta.csproj", "{C973420D-D7F5-40C6-883A-0B9066DBAA95}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "..\Setup\Setup.vdproj", "{4CF3E27C-9F16-4209-ADC9-ECC1B4ADE63C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{C973420D-D7F5-40C6-883A-0B9066DBAA95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C973420D-D7F5-40C6-883A-0B9066DBAA95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C973420D-D7F5-40C6-883A-0B9066DBAA95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF3E27C-9F16-4209-ADC9-ECC1B4ADE63C}.Debug|Any CPU.ActiveCfg = Debug
+		{4CF3E27C-9F16-4209-ADC9-ECC1B4ADE63C}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

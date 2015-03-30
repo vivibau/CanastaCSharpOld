@@ -20,7 +20,7 @@ namespace Canasta
             string result = "";
             int originalPos = pos;
             pos++;
-            for (; pos < (char)source[originalPos]; pos++)
+            for (; pos - originalPos - 1 < (char)source[originalPos]; pos++)
                 result += (char)source[pos];
             return result;
         }

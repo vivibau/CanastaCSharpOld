@@ -27,7 +27,18 @@ namespace Canasta
             int numberOfPlayers = u.readNextInt(data, ref pos);
             m_players = new Player[numberOfPlayers];
             for (int i = 0; i < numberOfPlayers; i++)
-                m_players[i] = new Player(u.readNextString(data, ref pos));
+            {
+                string playerName = u.readNextString(data, ref pos);
+                int playerTeamId = u.readNextInt(data, ref pos);
+                int playerOrder = u.readNextInt(data, ref pos);
+                string tmpscore = u.readNextString(data, ref pos);
+                int playerScore = Convert.ToInt32(tmpscore);
+                string playerBoard = u.readNextString(data, ref pos);
+                string playerDisplayed = u.readNextString(data, ref pos);
+                string playerDisplayed2 = u.readNextString(data, ref pos);
+
+                m_players[i] = new Player(playerName, playerTeamId, playerOrder, playerScore, playerBoard, playerDisplayed, playerDisplayed2);
+            }
 
             m_state = u.readNextInt(data, ref pos);
             m_currentPlayer = u.readNextInt(data, ref pos);
@@ -47,6 +58,15 @@ namespace Canasta
         public void generateEvent()
         {
             evGameCreated(this, e);
+        }
+
+        public Player getPlayer(string name)
+        {
+            foreach (Player p in m_players)
+                if (p.Name == name)
+                    return p;
+
+            return null;
         }
     }
 }
