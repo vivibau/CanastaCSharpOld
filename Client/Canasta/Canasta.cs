@@ -18,10 +18,10 @@ namespace Canasta
         string m_server;
         int m_interval;
         public static Game m_game;
+        public static string m_playerName;
         double m_ratioX;
         double m_ratioY;
 
-//        Dictionary<Object, SizeLocation> m_sizeLocation;
         List<SizeLocation> m_sizeLocation;
 
         private GroupBox m_groupBoxPlayersSection;
@@ -67,22 +67,7 @@ namespace Canasta
             data += (char)14; // board length
             for (int i = 0; i < 14; i++)
                 data += (char)p.getNext();
-/*
-            data += (char)18;  // player board
-            data += (char)19;
-            data += (char)41;
-            data += (char)8;
-            data += (char)16;
-            data += (char)22;
-            data += (char)81;
-            data += (char)80;
-            data += (char)55;
-            data += (char)56;
-            data += (char)57;
-            data += (char)58;
-            data += (char)90;
-            data += (char)100;
- */
+
             data += (char)0;  // displayed length
             data += (char)0;  // displayed2 length
 
@@ -97,22 +82,6 @@ namespace Canasta
             for (int i = 0; i < 14; i++)
                 data += (char)p.getNext();
 
-/*
-            data += (char)20;  // player board
-            data += (char)21;
-            data += (char)42;
-            data += (char)9;
-            data += (char)17;
-            data += (char)32;
-            data += (char)33;
-            data += (char)34;
-            data += (char)44;
-            data += (char)45;
-            data += (char)46;
-            data += (char)66;
-            data += (char)67;
-            data += (char)68;
- */
             data += (char)0;  // displayed length
             data += (char)0;  // displayed2 length
 
@@ -148,25 +117,28 @@ namespace Canasta
 
             m_groupBoxPlayers = new GroupBox[m_game.getNumberOfPlayers()];
             m_panelPlayers = new Panel[m_game.getNumberOfPlayers()];
-            for (int i = 0; i < m_game.getNumberOfPlayers(); i++)
-            {
-                m_groupBoxPlayers[i] = new GroupBox();
-                m_groupBoxPlayers[i].Location = new Point(3, 3 + i * 186);
-                m_groupBoxPlayers[i].Size = new Size(381, 184);
-                m_groupBoxPlayers[i].Text = i.ToString();
-                m_groupBoxPlayers[i].BackColor = SystemColors.ControlDark;
-                m_groupBoxPlayers[i].Name = "m_groupBoxPlayers" + i.ToString();
-                m_sizeLocation.Add(new SizeLocation(m_groupBoxPlayers[i].Name, new Point(3, 3 + i * 186), new Size(381, 184)));
-                m_panelPlayersSection.Controls.Add(m_groupBoxPlayers[i]);
+//            for (int i = 0; i < m_game.getNumberOfPlayers(); i++)
+            int idx = 0;
+            foreach (Player p in m_game.getPlayers())
+                if (p.Name != m_playerName)
+                {
+                    m_groupBoxPlayers[idx] = new GroupBox();
+                    m_groupBoxPlayers[idx].Location = new Point(3, 3 + idx * 186);
+                    m_groupBoxPlayers[idx].Size = new Size(381, 184);
+                    m_groupBoxPlayers[idx].Text = p.Name;
+                    m_groupBoxPlayers[idx].BackColor = SystemColors.ControlDark;
+                    m_groupBoxPlayers[idx].Name = "m_groupBoxPlayers" + p.Name;
+                    m_sizeLocation.Add(new SizeLocation(m_groupBoxPlayers[idx].Name, new Point(3, 3 + idx * 186), new Size(381, 184)));
+                    m_panelPlayersSection.Controls.Add(m_groupBoxPlayers[idx]);
 
-                m_panelPlayers[i] = new Panel();
-                m_panelPlayers[i].AutoScroll = true;
-                m_panelPlayers[i].Location = new Point(7, 22);
-                m_panelPlayers[i].Size = new Size(368, 156);
-                m_panelPlayers[i].Name = "m_panelPlayers" + i.ToString();
-                m_sizeLocation.Add(new SizeLocation(m_panelPlayers[i].Name, new Point(7, 22), new Size(368, 156)));
-                m_groupBoxPlayers[i].Controls.Add(m_panelPlayers[i]);
-            }
+                    m_panelPlayers[idx] = new Panel();
+                    m_panelPlayers[idx].AutoScroll = true;
+                    m_panelPlayers[idx].Location = new Point(7, 22);
+                    m_panelPlayers[idx].Size = new Size(368, 156);
+                    m_panelPlayers[idx].Name = "m_panelPlayers" + p.Name;
+                    m_sizeLocation.Add(new SizeLocation(m_panelPlayers[idx].Name, new Point(7, 22), new Size(368, 156)));
+                    m_groupBoxPlayers[idx].Controls.Add(m_panelPlayers[idx]);
+                }
 
             m_groupBoxStack = new GroupBox();
             m_groupBoxStack.Location = new Point(464, 31);
@@ -232,7 +204,8 @@ namespace Canasta
             this.Controls.Add(m_buttonBoardRight);
 
             Board board = new Board();
-            string pieces = m_game.getPlayer("B").Board;
+//            string pieces = m_game.getPlayer("B").Board;
+            string pieces = m_game.getPlayer(m_playerName).Board;
             for (int i = 0; i < pieces.Length; i++)
                 board.addPiece(pieces[i]);
 
@@ -326,7 +299,7 @@ namespace Canasta
 
         private void creareToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form newGame = new NewGame(m_server, m_interval, ref m_game);
+            Form newGame = new NewGame(m_server, m_interval, ref m_game, ref m_playerName);
             newGame.ShowDialog();
         }
 

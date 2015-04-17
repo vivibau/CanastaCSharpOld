@@ -116,7 +116,7 @@ namespace Canasta
             }
             else
             {
-                Request request = new Request(m_server, m_gameName, m_playerName, 15, "");
+                Request request = new Request(m_server, m_gameName, m_playerName, 15, ""); // AskPlayerList_e
                 byte[] buffer = new byte[1024];
                 buffer = request.send();
 
@@ -129,31 +129,27 @@ namespace Canasta
                 }
 
                 int curPos = 3;
-                if (buffer[1] != 2) // game state != in progress
+                m_players.Clear();
+                listBox2.Items.Clear();
+                for (int i = 0; i < MAX_TEAMS; i++)
+                    m_teams[i].Items.Clear();
+
+                for (int i = 0; i < buffer[2]; i++)
                 {
-                    m_players.Clear();
-                    listBox2.Items.Clear();
-                    for (int i = 0; i < MAX_TEAMS; i++)
-                        m_teams[i].Items.Clear();
-
-                    for (int i = 0; i < buffer[2]; i++)
-                    {
-                        string name = "";
-                        for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
-                            name += (char)buffer[j];
-                        curPos += buffer[curPos] + 3;
-//                        m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1], ""));
-                        m_players.Add(new Player(name, (int)buffer[curPos - 2], 0, (int)buffer[curPos - 1], "", "", ""));
-                    }
-
-                    m_players.Sort();
-                    for (int i = 0; i < m_players.Count; i++)
-                        if (m_players[i].TeamId == 100) // id of the team when the player does not have a team
-                            listBox2.Items.Add(m_players[i].Name);
-                        else
-                            m_teams[m_players[i].TeamId].Items.Add(m_players[i].Name);
-                    curPos++;
+                    string name = "";
+                    for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
+                        name += (char)buffer[j];
+                    curPos += buffer[curPos] + 3;
+                    m_players.Add(new Player(name, (int)buffer[curPos - 2], 0, (int)buffer[curPos - 1], "", "", ""));
                 }
+
+                m_players.Sort();
+                for (int i = 0; i < m_players.Count; i++)
+                    if (m_players[i].TeamId == 100) // id of the team when the player does not have a team
+                        listBox2.Items.Add(m_players[i].Name);
+                    else
+                        m_teams[m_players[i].TeamId].Items.Add(m_players[i].Name);
+                curPos++;
 
                 // updates
                 for (int i = 0; i < buffer[curPos - 1]; i++)
@@ -166,11 +162,12 @@ namespace Canasta
                         textBox3.AppendText("\n");
                     }
                     if (update.Operation == 13) // op type = get board
-//                        if (update.Name == m_playerName)
-                        {
-                            Canasta.m_game = new Game(update.Data);
-                            Close();
-                        }
+                    {
+                        Canasta.m_playerName = m_playerName;
+                        Canasta.m_game.updateData(update.Data);
+                        Canasta.m_game.generateEvent();
+                        Close();
+                    }
                 }
             }
         }

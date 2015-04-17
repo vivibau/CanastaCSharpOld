@@ -33,7 +33,7 @@ namespace Canasta
         Button[] m_upTeam;
         Button[] m_downTeam;
 
-        public NewGame(string server, int interval, ref Game game)
+        public NewGame(string server, int interval, ref Game game, ref string playerName)
         {
             InitializeComponent();
             m_creareJoc = true;
@@ -220,29 +220,25 @@ namespace Canasta
             }
             else
             {
-                Request request = new Request(m_server, m_gameName, m_playerName, 15, "");
+                Request request = new Request(m_server, m_gameName, m_playerName, 15, ""); // AskPlayerList_e
                 byte[] buffer = new byte[1024];
                 buffer = request.send();
 
                 int curPos = 3;
-                if (buffer[1] != 2) // game state != in progress
+                m_players.Clear();
+                for (int i = 0; i < buffer[2]; i++)
                 {
-                    m_players.Clear();
-                    for (int i = 0; i < buffer[2]; i++)
-                    {
-                        string name = "";
-                        for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
-                            name += (char)buffer[j];
-                        curPos += buffer[curPos] + 3;
-//                        m_players.Add(new Player(name, (int)buffer[curPos - 2], (int)buffer[curPos - 1], ""));
-                        m_players.Add(new Player(name, (int)buffer[curPos - 2], 0, (int)buffer[curPos - 1], "", "", ""));
+                    string name = "";
+                    for (int j = curPos + 1; j < curPos + 1 + buffer[curPos]; j++)
+                        name += (char)buffer[j];
+                    curPos += buffer[curPos] + 3;
+                    m_players.Add(new Player(name, (int)buffer[curPos - 2], 0, (int)buffer[curPos - 1], "", "", ""));
 
-                        if (!searchName(name))
-                            listBox2.Items.Add(name);
-                    }
-                    updateDeletedPlayers();
-                    curPos++;
+                    if (!searchName(name))
+                        listBox2.Items.Add(name);
                 }
+                updateDeletedPlayers();
+                curPos++;
 
                 // updates
                 for (int i = 0; i < buffer[curPos - 1]; i++)
@@ -255,11 +251,12 @@ namespace Canasta
                         textBox3.AppendText("\n");
                     }
                     if (update.Operation == 13) // op type = get board
-//                        if (update.Name == m_playerName)
-                        {
-                            Canasta.m_game = new Game(update.Data);
-                            Close();
-                        }
+                    {
+                        Canasta.m_playerName = m_playerName;
+                        Canasta.m_game.updateData(update.Data);
+                        Canasta.m_game.generateEvent();
+                        Close();
+                    }
                 }
                 if (m_players.Count == m_numberOfPlayers)
                     button1.Enabled = true;

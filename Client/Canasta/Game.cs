@@ -9,7 +9,7 @@ namespace Canasta
     public class Game
     {
         string m_gameName;
-        Player[] m_players;
+        List<Player> m_players;
         int m_rarePiece;
         int m_state;
         int m_currentPlayer;
@@ -20,12 +20,18 @@ namespace Canasta
 
         public Game(string data)
         {
+            updateData(data);
+        }
+
+        public void updateData(string data)
+        {
             int pos = 1;
             Utils u = new Utils();
             m_gameName = u.readNextString(data, ref pos);
 
             int numberOfPlayers = u.readNextInt(data, ref pos);
-            m_players = new Player[numberOfPlayers];
+            m_players = new List<Player>();
+            m_players.Clear();
             for (int i = 0; i < numberOfPlayers; i++)
             {
                 string playerName = u.readNextString(data, ref pos);
@@ -37,12 +43,14 @@ namespace Canasta
                 string playerDisplayed = u.readNextString(data, ref pos);
                 string playerDisplayed2 = u.readNextString(data, ref pos);
 
-                m_players[i] = new Player(playerName, playerTeamId, playerOrder, playerScore, playerBoard, playerDisplayed, playerDisplayed2);
+                m_players.Add(new Player(playerName, playerTeamId, playerOrder, playerScore, playerBoard, playerDisplayed, playerDisplayed2));
             }
+            m_players.Sort();
 
             m_state = u.readNextInt(data, ref pos);
             m_currentPlayer = u.readNextInt(data, ref pos);
             m_rarePiece = u.readNextInt(data, ref pos);
+
         }
 
         public string Name
@@ -52,7 +60,7 @@ namespace Canasta
 
         public int getNumberOfPlayers()
         {
-            return m_players.Length;
+            return m_players.Count;
         }
 
         public void generateEvent()
@@ -67,6 +75,11 @@ namespace Canasta
                     return p;
 
             return null;
+        }
+
+        public List<Player> getPlayers()
+        {
+            return m_players;
         }
     }
 }
